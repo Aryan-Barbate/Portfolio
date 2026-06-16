@@ -52,7 +52,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.5 }}
         >
           I build interfaces with intention — live API tools, creative experiments,
-          and full-stack foundations. Small in quantity,{' '}
+          and polished front-end craft. Small in quantity,{' '}
           <span className="serif-italic">high in craft.</span>
         </motion.p>
 
@@ -68,6 +68,9 @@ export default function Hero() {
           <button className="btn btn-outline" onClick={() => scrollTo('about')}>
             Read the story
           </button>
+          <a href="/resume.pdf" download className="btn btn-outline">
+            Download CV
+          </a>
         </motion.div>
       </div>
 

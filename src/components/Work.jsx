@@ -42,7 +42,7 @@ export default function Work() {
                 <div>
                   <p className="eyebrow reveal">Selected Work</p>
                   <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-                    Four projects,<br />one practice.
+                    Three projects,<br />one practice.
                   </h2>
                 </div>
                 <span className="section-index reveal reveal-delay-2">01</span>
@@ -59,10 +59,17 @@ export default function Work() {
                     aria-label={`Open ${project.name} details`}
                   >
                     <div className="project-card-visual">
+                      <img
+                        className="project-card-cover"
+                        src={project.cover}
+                        alt=""
+                        loading="lazy"
+                        draggable="false"
+                      />
                       <div
                         className="project-card-bg"
                         style={{
-                          background: `linear-gradient(145deg, ${project.color} 0%, ${project.accent} 100%)`,
+                          background: `linear-gradient(145deg, ${project.color}88 0%, ${project.accent}44 100%)`,
                         }}
                       />
                       <span className="project-card-index">0{i + 1}</span>

@@ -1,5 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#f4f0e8"/>
-  <rect x="4" y="4" width="24" height="24" rx="2" stroke="#0a0a0a" stroke-width="2"/>
-  <text x="16" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#e85d04">AB</text>
+  <style>
+    rect.bg { fill: #f4f0e8; }
+    rect.border { stroke: #0a0a0a; }
+    text.logo { fill: #e85d04; }
+    @media (prefers-color-scheme: dark) {
+      rect.bg { fill: #0d0c0a; }
+      rect.border { stroke: #f4f0e8; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="6" />
+  <rect class="border" x="4" y="4" width="24" height="24" rx="2" stroke-width="2" />
+  <text class="logo" x="16" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700">AB</text>
 </svg>

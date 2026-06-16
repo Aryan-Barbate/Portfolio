@@ -7,6 +7,7 @@ import Work from './components/Work';
 import Journey from './components/Journey';
 import Capabilities from './components/Capabilities';
 import About from './components/About';
+import Writing from './components/Writing';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -22,6 +23,7 @@ export default function App() {
         <Journey />
         <Capabilities />
         <About />
+        <Writing />
         <Contact />
       </main>
       <Footer />

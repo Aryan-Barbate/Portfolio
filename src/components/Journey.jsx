@@ -30,9 +30,8 @@ const phases = [
     phase: 'Branch',
     title: 'Systems thinking',
     description:
-      'Gallery of Senses was creativity meeting code. The MERN lab opened the backend door — databases, routes, middleware. More is growing.',
-    milestones: ['Full-stack', 'MongoDB', 'Creative UI'],
-    active: true,
+      'Gallery of Senses was creativity meeting code — motion, color, and interaction as one system. The next chapter is depth: polish, performance, and new tools.',
+    milestones: ['Creative UI', 'Motion', 'API tools'],
   },
 ];
 

@@ -15,7 +15,7 @@ export default function Capabilities() {
       <div className="container">
         <div className="section-header section-header-row">
           <div>
-            <p className="eyebrow reveal">Capabilities</p>
+            <p className="eyebrow">Capabilities</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
               What I work with.
             </h2>
@@ -23,21 +23,21 @@ export default function Capabilities() {
           <span className="section-index reveal reveal-delay-2">03</span>
         </div>
 
-        <div className="capabilities-layout">
+        <div className="capabilities-new-layout">
           <div className="capabilities-intro reveal">
-            <p className="body-text">
+            <p className="body-text" style={{ maxWidth: '680px' }}>
               No inflated percentages — just an honest map of what I use daily,
               what I'm sharpening, and what I'm growing into.
             </p>
-            <p className="body-sm" style={{ marginTop: '1.5rem' }}>
-              Currently deepening backend fundamentals through the MERN stack —
-              databases, routes, and server-client communication.
+            <p className="body-sm" style={{ marginTop: '1rem', maxWidth: '680px' }}>
+              Currently sharpening API-driven interfaces and motion design —
+              making data-heavy tools feel fast, clear, and alive.
             </p>
           </div>
 
-          <div className="capabilities-groups reveal reveal-delay-2">
+          <div className="capabilities-grid reveal reveal-delay-2">
             {grouped.map(group => (
-              <div key={group.name}>
+              <div key={group.name} className="capability-group-card">
                 <div className="capability-group-header">
                   <span className="capability-group-name">{group.name}</span>
                   <span className="capability-group-desc">{group.description}</span>

@@ -24,11 +24,15 @@ export default function ProjectModal({ project, onClose }) {
         role="dialog"
       >
         <div className="modal-hero">
+          <img
+            className="modal-hero-cover"
+            src={project.cover}
+            alt=""
+          />
           <div
+            className="modal-hero-overlay"
             style={{
-              position: 'absolute',
-              inset: 0,
-              background: `linear-gradient(160deg, ${project.color}, ${project.accent})`,
+              background: `linear-gradient(160deg, ${project.color}cc, ${project.accent}88)`,
             }}
           />
           <button className="modal-close" onClick={onClose} aria-label="Close">

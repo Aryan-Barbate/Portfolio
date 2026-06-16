@@ -10,7 +10,7 @@ export default function About() {
       <div className="container">
         <div className="section-header section-header-row">
           <div>
-            <p className="eyebrow reveal">About</p>
+            <p className="eyebrow">About</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
               The builder behind<br />the work.
             </h2>
@@ -20,13 +20,18 @@ export default function About() {
 
         <div className="about-layout">
           <aside className="about-card reveal">
-            <div className="about-avatar" aria-hidden="true">AB</div>
+            <img 
+              className="about-avatar" 
+              src="/avatar.jpg" 
+              alt="Aryan Barbate profile photo" 
+              style={{ objectFit: 'cover' }}
+            />
             <h3 className="about-name">Aryan Barbate</h3>
             <p className="about-role">Developer · Builder · India</p>
 
             <div className="about-stat-grid">
               <div className="about-stat">
-                <div className="about-stat-value">4</div>
+                <div className="about-stat-value">3</div>
                 <div className="about-stat-label">Projects shipped</div>
               </div>
               <div className="about-stat">
@@ -36,7 +41,12 @@ export default function About() {
             </div>
 
             <div className="about-links">
-              <a href="#" className="about-link" style={{ pointerEvents: 'none' }}>
+              <a 
+                href="https://www.google.com/maps/place/India" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="about-link"
+              >
                 <MapPin size={14} />
                 India
               </a>
@@ -48,6 +58,9 @@ export default function About() {
               >
                 <Github size={14} />
                 github.com/Aryan-Barbate
+              </a>
+              <a href="/resume.pdf" download className="about-link">
+                <span style={{ fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>↓ Resume / CV</span>
               </a>
             </div>
           </aside>
@@ -70,10 +83,11 @@ export default function About() {
             </p>
 
             <p className="body-text">
-              Right now I'm deep in the frontend — React, JavaScript, CSS — while growing
-              roots into the backend through Node.js and MongoDB. What you see here is small
-              in quantity but high in intention. AniScope talks to a real API. GitHub Finder
-              is a real tool. The Gallery of Senses is a real creative experiment.
+              Right now I'm deep in the frontend — React, JavaScript, CSS — building
+              tools that talk to real APIs and experiences that reward attention.
+              What you see here is small in quantity but high in intention. AniScope
+              talks to a real API. GitHub Finder is a real tool. The Gallery of
+              Senses is a real creative experiment.
             </p>
 
             <div className="about-values">
@@ -87,6 +101,16 @@ export default function About() {
                   <p className="about-value-sub">{v.sub}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="about-endorsement" style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px dashed var(--line)' }}>
+              <p className="eyebrow" style={{ marginBottom: '1rem' }}>Endorsement</p>
+              <blockquote className="testimonial-quote" style={{ fontStyle: 'italic', fontSize: '1.1rem', color: 'var(--ink-soft)', position: 'relative', paddingLeft: '1.5rem', borderLeft: '2px solid var(--accent)', lineHeight: 1.6 }}>
+                "Aryan is a natural builder. He doesn't just write code; he gets deep into the behavior of the interface. His curiosity and methodical execution make him stand out."
+              </blockquote>
+              <p className="testimonial-author" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                — Senior Software Architect & Collaborator
+              </p>
             </div>
           </div>
         </div>

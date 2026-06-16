@@ -1,0 +1,82 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 760 >>
+stream
+BT
+/F1 22 Tf
+70 720 Td
+(Aryan Barbate) Tj
+/F1 12 Tf
+0 -24 Td
+(Software Developer | India | aryanbarbate3@gmail.com) Tj
+0 -16 Td
+(GitHub: github.com/Aryan-Barbate | LinkedIn: linkedin.com/in/aryan-barbate-b653b9393) Tj
+0 -32 Td
+/F1 14 Tf
+(TECHNICAL SKILLS) Tj
+/F1 11 Tf
+0 -20 Td
+(React.js, JavaScript (ES6+), HTML5, CSS3, Responsive Design, State Management) Tj
+0 -16 Td
+(Node.js, Express.js, MongoDB (Growing), REST APIs, Async/Await, Git, Vite) Tj
+0 -32 Td
+/F1 14 Tf
+(PROJECTS) Tj
+/F1 12 Tf
+0 -22 Td
+(AniScope - Live Anime Discovery Platform) Tj
+/F1 10 Tf
+0 -14 Td
+(- Fetches real-time anime metadata from Jikan API, demonstrating async queries.) Tj
+0 -12 Td
+(- Implemented dynamic search queries with debouncing and state caching.) Tj
+/F1 12 Tf
+0 -22 Td
+(GitHub Finder - Profile Scan Tool) Tj
+/F1 10 Tf
+0 -14 Td
+(- Pulls GitHub repository, follower, and public activity metrics in real-time.) Tj
+0 -12 Td
+(- Structured fallback UI boundaries to handle GitHub API limit thresholds.) Tj
+/F1 12 Tf
+0 -22 Td
+(Gallery of Senses - Creative Visual Exhibit) Tj
+/F1 10 Tf
+0 -14 Td
+(- Developed device-independent frame-rate interpolation using Canvas API.) Tj
+0 -12 Td
+(- Managed easing transitions and particles to create responsive fluid motion.) Tj
+0 -32 Td
+/F1 14 Tf
+(EDUCATION) Tj
+/F1 11 Tf
+0 -20 Td
+(Bachelor of Science / Computer Science | India) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000223 00000 n 
+0000000290 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1250
+%%EOF

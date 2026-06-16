@@ -1,19 +1,60 @@
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Loader2 } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 
 export default function Contact() {
   const sectionRef = useScrollReveal();
-  const [form, setForm] = useState({ name: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // idle, sending, success, error
 
-  const handleSubmit = (e) => {
+  // The user can configure their Formspree ID here.
+  // If it remains the placeholder, the form will fall back to mailto automatically.
+  const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Hello from ${form.name}`);
-    const body = encodeURIComponent(form.message);
-    window.open(`mailto:aryan.barbate@example.com?subject=${subject}&body=${body}`);
-    setSent(true);
+    setStatus('sending');
+
+    const hasFormspreeId = FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORMSPREE_ID';
+
+    if (!hasFormspreeId) {
+      // Graceful fallback to mailto if Formspree is not configured
+      const subject = encodeURIComponent(`Hello from ${form.name}`);
+      const body = encodeURIComponent(`From: ${form.email}\n\n${form.message}`);
+      window.open(`mailto:aryanbarbate3@gmail.com?subject=${subject}&body=${body}`);
+      setStatus('success');
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      // Fallback to mailto if fetch fails
+      const subject = encodeURIComponent(`Hello from ${form.name} (Fallback)`);
+      const body = encodeURIComponent(`From: ${form.email}\n\n${form.message}`);
+      window.open(`mailto:aryanbarbate3@gmail.com?subject=${subject}&body=${body}`);
+      setStatus('success'); // mark as success since mailto was triggered
+    }
   };
 
   return (
@@ -30,8 +71,8 @@ export default function Contact() {
               Open to conversations, collaboration, and building. If something resonated here, reach out.
             </p>
 
-            <a href="mailto:aryan.barbate@example.com" className="contact-email-link">
-              aryan.barbate@email →
+            <a href="mailto:aryanbarbate3@gmail.com" className="contact-email-link">
+              aryanbarbate3@gmail.com →
             </a>
 
             <div className="contact-channels">
@@ -48,7 +89,7 @@ export default function Contact() {
                 <Github size={18} />
               </a>
               <a
-                href="https://linkedin.com/in/aryan-barbate"
+                href="https://www.linkedin.com/in/aryan-barbate-b653b9393"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-channel"
@@ -63,7 +104,7 @@ export default function Contact() {
           </div>
 
           <div className="reveal reveal-delay-2">
-            {!sent ? (
+            {status !== 'success' ? (
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div>
                   <label className="form-label" htmlFor="contact-name">Your name</label>
@@ -74,6 +115,20 @@ export default function Contact() {
                     placeholder="Who's reaching out?"
                     value={form.name}
                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    disabled={status === 'sending'}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="form-label" htmlFor="contact-email">Your email</label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    className="form-input"
+                    placeholder="How can I reply to you?"
+                    value={form.email}
+                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    disabled={status === 'sending'}
                     required
                   />
                 </div>
@@ -85,18 +140,37 @@ export default function Contact() {
                     placeholder="What would you like to build or talk about?"
                     value={form.message}
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    disabled={status === 'sending'}
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  <Send size={14} />
-                  Send message
+                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} disabled={status === 'sending'}>
+                  {status === 'sending' ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={14} />
+                      Send message
+                    </>
+                  )}
                 </button>
               </form>
             ) : (
               <div className="contact-sent">
                 <h3>Message sent.</h3>
-                <p style={{ color: 'rgba(244,240,232,0.55)' }}>Your email client is opening. Talk soon.</p>
+                <p style={{ color: 'rgba(244,240,232,0.55)', marginTop: '0.5rem' }}>
+                  Thank you! I will get back to you shortly.
+                </p>
+                <button 
+                  className="btn btn-outline" 
+                  style={{ marginTop: '1.5rem' }} 
+                  onClick={() => setStatus('idle')}
+                >
+                  Send another message
+                </button>
               </div>
             )}
           </div>

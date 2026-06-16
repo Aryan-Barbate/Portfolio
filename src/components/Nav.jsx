@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -6,6 +7,7 @@ const sections = [
   { id: 'journey', label: 'Journey' },
   { id: 'capabilities', label: 'Skills' },
   { id: 'about', label: 'About' },
+  { id: 'writing', label: 'Writing' },
   { id: 'contact', label: 'Contact' },
 ];
 
@@ -13,6 +15,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +34,15 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
@@ -40,16 +52,19 @@ export default function Nav() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const toggleTheme = () => {
+    setTheme(t => t === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <>
       <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <a href="#hero" className="nav-logo" onClick={e => { e.preventDefault(); scrollTo('hero'); }}>
           <span className="nav-logo-mark">AB</span>
-          Barbate
         </a>
 
         <ul className="nav-links">
-          {sections.slice(1).map(s => (
+          {sections.slice(1, -1).map(s => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
@@ -60,6 +75,15 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+          </li>
           <li>
             <a
               href="#contact"
@@ -94,6 +118,16 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label="Toggle theme"
+              style={{ padding: '12px', width: '44px', height: '44px' }}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          </li>
         </ul>
       </div>
     </>
