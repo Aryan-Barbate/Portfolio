@@ -49,6 +49,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body {
@@ -93,6 +94,8 @@ img, svg { display: block; max-width: 100%; }
   line-height: 0.92;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .display-section {
@@ -1893,7 +1896,7 @@ section {
 
   /* Hero typography fine-tuning */
   .display-hero {
-    font-size: clamp(2.8rem, 13vw, 4.5rem);
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
     letter-spacing: -0.03em;
   }
 
@@ -2167,7 +2170,7 @@ section {
 /* ── Small Mobile (≤360px) ──────────────────────────────── */
 @media (max-width: 360px) {
   .display-hero {
-    font-size: clamp(2.2rem, 14vw, 3.5rem);
+    font-size: clamp(1.8rem, 11vw, 2.5rem);
   }
 
   .display-section {
@@ -2651,6 +2654,8 @@ body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-
 
 .terminal-line {
   color: #e85d04;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .terminal-line.system {
@@ -2703,6 +2708,8 @@ body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-
 .log-detail {
   color: #ebe5d9;
   line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Cursor */
