@@ -19,7 +19,7 @@ export default function Footer() {
             View source
           </a>
 
-          <span className="footer-meta">© {year} · Designed & built by hand</span>
+          <span className="footer-meta">© {year} · Crafted with intention</span>
         </div>
       </div>
     </footer>

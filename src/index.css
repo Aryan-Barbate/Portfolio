@@ -96,6 +96,7 @@ img, svg { display: block; max-width: 100%; }
   text-transform: uppercase;
   word-break: break-word;
   overflow-wrap: break-word;
+  padding-bottom: 0.15em;
 }
 
 .display-section {
@@ -104,6 +105,7 @@ img, svg { display: block; max-width: 100%; }
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.03em;
+  padding-bottom: 0.15em;
 }
 
 .serif-italic {
@@ -511,6 +513,8 @@ section {
 .hero-title-line {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 }
 
 .hero-title-line span {
@@ -941,6 +945,7 @@ section {
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
+  padding-bottom: 0.15em;
 }
 
 .modal-block-label {
@@ -1053,6 +1058,7 @@ section {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  padding-bottom: 0.15em;
 }
 
 .journey-desc {
@@ -1354,6 +1360,7 @@ section {
   letter-spacing: -0.04em;
   line-height: 0.95;
   text-transform: uppercase;
+  padding-bottom: 0.15em;
 }
 
 .contact-headline em {
@@ -2442,6 +2449,8 @@ body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-
   flex-direction: column;
   align-items: start;
   transition: all 0.3s var(--ease-out);
+  width: 100%;
+  min-width: 0;
 }
 
 .writing-card:hover {
@@ -2473,6 +2482,7 @@ body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-
   letter-spacing: -0.02em;
   margin-bottom: var(--space-4);
   color: var(--ink);
+  padding-bottom: 0.15em;
 }
 
 .writing-excerpt {
@@ -2590,6 +2600,8 @@ body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   color: #f4f0e8;
+  width: 100%;
+  min-width: 0;
 }
 
 .terminal-header {
