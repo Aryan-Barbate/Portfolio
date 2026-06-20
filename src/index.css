@@ -105,7 +105,7 @@ img, svg { display: block; max-width: 100%; }
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  padding-bottom: 0.15em;
+  padding-bottom: 0.3em;
 }
 
 .serif-italic {
@@ -3174,8 +3174,19 @@ canvas {
   color: var(--accent) !important;
 }
 
+/* Fix CSS Cascade Issues for Mobile Layout */
+@media (max-width: 1024px) {
+  .console-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
-
-
-
-
+@media (max-width: 768px) {
+  .writing-grid {
+    grid-template-columns: 1fr;
+  }
+  .terminal-line {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+}
