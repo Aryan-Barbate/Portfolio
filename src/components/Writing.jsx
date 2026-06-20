@@ -54,7 +54,7 @@ export default function Writing() {
               Writing on the<br />process of build.
             </h2>
           </div>
-          <span className="section-index reveal reveal-delay-2">05</span>
+          <span className="section-index reveal reveal-delay-2">06</span>
         </div>
 
         <div className="writing-grid">

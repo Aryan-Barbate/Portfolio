@@ -15,7 +15,7 @@ export default function About() {
               The builder behind<br />the work.
             </h2>
           </div>
-          <span className="section-index reveal reveal-delay-2">04</span>
+          <span className="section-index reveal reveal-delay-2">05</span>
         </div>
 
         <div className="about-layout">
@@ -31,7 +31,7 @@ export default function About() {
 
             <div className="about-stat-grid">
               <div className="about-stat">
-                <div className="about-stat-value">3</div>
+                <div className="about-stat-value">4</div>
                 <div className="about-stat-label">Projects shipped</div>
               </div>
               <div className="about-stat">
@@ -86,8 +86,9 @@ export default function About() {
               Right now I'm deep in the frontend — React, JavaScript, CSS — building
               tools that talk to real APIs and experiences that reward attention.
               What you see here is small in quantity but high in intention. AniScope
-              talks to a real API. GitHub Finder is a real tool. The Gallery of
-              Senses is a real creative experiment.
+              talks to a real API. GitHub Finder is a real tool. Linea Flora is an
+              interactive bouquet builder. The Gallery of Senses is a real creative
+              experiment.
             </p>
 
             <div className="about-values">
@@ -103,15 +104,7 @@ export default function About() {
               ))}
             </div>
 
-            <div className="about-endorsement" style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px dashed var(--line)' }}>
-              <p className="eyebrow" style={{ marginBottom: '1rem' }}>Endorsement</p>
-              <blockquote className="testimonial-quote" style={{ fontStyle: 'italic', fontSize: '1.1rem', color: 'var(--ink-soft)', position: 'relative', paddingLeft: '1.5rem', borderLeft: '2px solid var(--accent)', lineHeight: 1.6 }}>
-                "Aryan is a natural builder. He doesn't just write code; he gets deep into the behavior of the interface. His curiosity and methodical execution make him stand out."
-              </blockquote>
-              <p className="testimonial-author" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                — Senior Software Architect & Collaborator
-              </p>
-            </div>
+
           </div>
         </div>
       </div>

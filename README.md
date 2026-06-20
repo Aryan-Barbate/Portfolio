@@ -2,8 +2,11 @@
 
 A premium, editorial-style developer portfolio built to showcase live products, creative experiments, and structured developer journals.
 
+---
+
 ## 🚀 Live Demos & Shipped Projects
 
+- **Linea Flora**: [Live Link](https://linea-flora-ab.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/Linea-Flora)
 - **AniScope**: [Live Link](https://ani-scope-nine.vercel.app) | [Source Code](https://github.com/Aryan-Barbate/AniScope)
 - **GitHub Finder**: [Live Link](https://ab-github-finder.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/GitHub-Finder)
 - **Gallery of Senses**: [Live Link](https://ab-gallery-of-senses.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/The-Gallery-of-Senses)
@@ -22,6 +25,27 @@ A premium, editorial-style developer portfolio built to showcase live products, 
 
 ---
 
+## 💎 Advanced Interactive Features
+
+### 1. Keyboard-Navigable Command Palette (`Ctrl + K` or `Cmd + K`)
+An accessibility-first overlay console triggered via `Ctrl + K` keyboard combinations or visual buttons. 
+*   **Whitespace-Stripped Shortcut Matching**: Instantly traverses commands using short commands (e.g., typing `gh` matches `Go to Home` (`G H`), `gp` matches `Go to Projects` (`G P`), etc.).
+*   **Full Keyboard Support**: Navigate results with `ArrowUp`/`ArrowDown`, trigger actions with `Enter`, and exit with `Escape`.
+*   **Frosted Glassmorphism**: Premium backdrop blurring and centered typography alignments.
+
+### 2. Command Center CLI Terminal Panel
+A hybrid tabbed developer dashboard situated inside the main layouts:
+*   **Activity Tab**: Simulates a live git commit graph feed (`git log --oneline --graph`).
+*   **Interactive Shell**: Runs a custom-built mock shell:
+    *   `about` — Profile biography.
+    *   `skills [query]` — Programmatically checks stack tags in the projects database and shows matching results.
+    *   `projects [query]` — Interactive details and source links.
+    *   `gui [section]` — Smooth scrolls browser viewport to targets.
+    *   `neofetch` — ASCII logo and system environment variables.
+    *   `contact` & `clear` — Details and buffer clearing.
+
+---
+
 ## 🎨 Editorial Design System
 
 The portfolio leverages a highly tailored editorial style resembling a design journal:
@@ -37,29 +61,30 @@ The portfolio leverages a highly tailored editorial style resembling a design jo
 
 ```bash
 ├── public/
-│   ├── projects/          # Visual covers for showcase projects
-│   ├── avatar.png         # Profile photo
+│   ├── avatar.jpg         # Profile photo
 │   ├── og-image.png       # Link preview metadata image
 │   ├── favicon.svg        # Adaptive light/dark theme favicon
 │   └── resume.pdf         # Downloadable CV PDF
 ├── src/
 │   ├── components/
-│   │   ├── Nav.jsx        # Navigation + Dark Mode Toggle
-│   │   ├── Hero.jsx       # Hero Section + Resume download trigger
-│   │   ├── Work.jsx       # Side-scrolling Project Card Gallery
-│   │   ├── ProjectModal.jsx # Case Study Modal Reader
-│   │   ├── Journey.jsx    # Timeline experience log
-│   │   ├── Capabilities.jsx # Custom Skills Grouping
-│   │   ├── About.jsx      # Bio + Endorsements + Resume link
-│   │   ├── Writing.jsx    # Developer Journal list + inline modal reader
-│   │   ├── Contact.jsx    # Formspree Form with mailto fallback
-│   │   └── Footer.jsx     # Site footer & GitHub repo link
+│   │   ├── Nav.jsx            # Navigation with theme sync listeners
+│   │   ├── CommandPalette.jsx # Ctrl+K Keyboard Search console
+│   │   ├── Hero.jsx           # Hero Section + Resume download trigger
+│   │   ├── Work.jsx           # Drag-and-scroll Project Card Gallery
+│   │   ├── ProjectModal.jsx   # Case Study Modal Reader
+│   │   ├── Journey.jsx        # Timeline experience log
+│   │   ├── Capabilities.jsx   # Custom Skills Grouping
+│   │   ├── GithubConsole.jsx  # Tabbed Git CLI Console
+│   │   ├── About.jsx          # Profile Biography
+│   │   ├── Writing.jsx        # Developer Journal list + inline reader
+│   │   ├── Contact.jsx        # Formspree Form with mailto fallback
+│   │   └── Footer.jsx         # Site footer & GitHub repo link
 │   ├── hooks/
 │   │   └── useScrollReveal.js # Intersection Observer reveal transitions
-│   ├── index.css          # Core Design System (Tokens, Utilities & Layouts)
-│   └── main.jsx           # App bootstrapping
-├── index.html             # SEO tags, Dynamic Theme Background & Analytics
-└── package.json           # Dependencies and build scripts
+│   ├── index.css              # Core Design System (Tokens, Utilities & Layouts)
+│   └── main.jsx               # App bootstrapping
+├── index.html                 # SEO tags, Dynamic Theme Background & Analytics
+└── package.json               # Dependencies and build scripts
 ```
 
 ---

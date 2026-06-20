@@ -31,7 +31,7 @@ const phases = [
     title: 'Systems thinking',
     description:
       'Gallery of Senses was creativity meeting code — motion, color, and interaction as one system. The next chapter is depth: polish, performance, and new tools.',
-    milestones: ['Creative UI', 'Motion', 'API tools'],
+    milestones: ['Creative UI', 'Motion', 'Linea Flora'],
   },
 ];
 

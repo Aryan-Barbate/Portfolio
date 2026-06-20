@@ -43,6 +43,14 @@ export default function Nav() {
   }, [theme]);
 
   useEffect(() => {
+    const handleThemeChanged = (e) => {
+      setTheme(e.detail);
+    };
+    window.addEventListener('theme-changed', handleThemeChanged);
+    return () => window.removeEventListener('theme-changed', handleThemeChanged);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
@@ -75,6 +83,35 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('toggle-command-palette'))}
+              className="command-palette-toggle"
+              aria-label="Open Command Palette"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 10px',
+                borderRadius: '6px',
+                fontSize: '0.65rem',
+                fontFamily: 'var(--font-mono)',
+                border: '1px solid var(--line)',
+                transition: 'all 0.2s ease',
+                height: '32px'
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span className="nav-shortcut-badge" style={{ opacity: 0.65 }}>Ctrl K</span>
+            </button>
+          </li>
           <li>
             <button
               onClick={toggleTheme}
@@ -118,7 +155,31 @@ export default function Nav() {
               </a>
             </li>
           ))}
-          <li style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+          <li style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+            <button
+              onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent('toggle-command-palette')); }}
+              className="command-palette-toggle"
+              aria-label="Open Command Palette"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid var(--line)',
+                color: 'var(--ink)',
+                cursor: 'pointer',
+                padding: '12px 18px',
+                borderRadius: '8px',
+                fontSize: '0.8rem',
+                fontFamily: 'var(--font-mono)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Command Center</span>
+            </button>
             <button
               onClick={toggleTheme}
               className="theme-toggle"

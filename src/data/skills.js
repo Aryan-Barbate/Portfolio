@@ -1,6 +1,7 @@
 export const skills = [
   { id: 'html', label: 'HTML5', group: 'Foundation' },
   { id: 'css', label: 'CSS3', group: 'Foundation' },
+  { id: 'tailwind', label: 'Tailwind CSS', group: 'Foundation' },
   { id: 'responsive', label: 'Responsive Design', group: 'Foundation' },
   { id: 'js', label: 'JavaScript', group: 'Logic' },
   { id: 'react', label: 'React', group: 'Logic' },
@@ -12,6 +13,7 @@ export const skills = [
   { id: 'node', label: 'Node.js', group: 'Workflow' },
   { id: 'vite', label: 'Vite', group: 'Workflow' },
   { id: 'animation', label: 'CSS Animation', group: 'Craft' },
+  { id: 'framer-motion', label: 'Framer Motion', group: 'Craft' },
   { id: 'canvas', label: 'Canvas API', group: 'Craft' },
   { id: 'design', label: 'UI Design', group: 'Craft' },
   { id: 'mongodb', label: 'MongoDB', group: 'Growing' },

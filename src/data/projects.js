@@ -1,5 +1,23 @@
 export const projects = [
   {
+    id: 'linea-flora',
+    name: 'Linea Flora',
+    tag: 'Creative Builder',
+    year: '2026',
+    purpose: 'An interactive digital flower bouquet builder that allows users to design custom arrangements, write personal greeting cards, select ambient music, and share them via lightweight encoded URLs.',
+    description: 'Developed to explore complex canvas state management, drag-and-drop mechanics, and client-side serialization. Linea Flora runs completely without a backend database by packing card states into base64 encoded URLs.',
+    stack: ['React', 'Framer Motion', 'Tailwind CSS', 'Radix UI'],
+    takeaway: 'Leveraged Framer Motion for step-by-step layout transitions and touch gestures. Mastered client-side state serialization to build database-free sharing.',
+    taught: 'How to translate complex visual interactions (rotate, resize, layer) into responsive, touch-friendly UI components.',
+    nextEvolution: 'Add canvas export as PNG/PDF, custom calligraphy text styles, and a collaborative multiplayer gardening sandbox.',
+    github: 'https://github.com/Aryan-Barbate/Linea-Flora',
+    live: 'https://linea-flora-ab.vercel.app/',
+    stars: 0,
+    color: '#d68c9c',
+    accent: '#4e6552',
+    cover: 'https://raw.githubusercontent.com/Aryan-Barbate/Linea-Flora/main/docs/screenshots/home.png',
+  },
+  {
     id: 'aniscope',
     name: 'AniScope',
     tag: 'Live Product',
@@ -15,7 +33,7 @@ export const projects = [
     stars: 2,
     color: '#e85d04',
     accent: '#1a3a5c',
-    cover: '/projects/aniscope-cover.svg',
+    cover: 'https://raw.githubusercontent.com/Aryan-Barbate/AniScope/main/images/home-screen.png',
   },
   {
     id: 'github-finder',
@@ -33,7 +51,7 @@ export const projects = [
     stars: 0,
     color: '#0a0a0a',
     accent: '#c4b8a8',
-    cover: '/projects/github-finder-cover.svg',
+    cover: 'https://raw.githubusercontent.com/Aryan-Barbate/GitHub-Finder/main/images/landing-page.png',
   },
   {
     id: 'gallery-of-senses',
@@ -51,6 +69,6 @@ export const projects = [
     stars: 0,
     color: '#8b5a2b',
     accent: '#f0e6d8',
-    cover: '/projects/gallery-of-senses-cover.svg',
+    cover: 'https://raw.githubusercontent.com/Aryan-Barbate/The-Gallery-of-Senses/main/images/gallery-home.png',
   },
 ];

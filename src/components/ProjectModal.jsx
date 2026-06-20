@@ -1,12 +1,12 @@
 import { X, ExternalLink } from 'lucide-react';
 import { Github } from './BrandIcons';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function ProjectModal({ project, onClose }) {
   if (!project) return null;
 
   return (
-    <AnimatePresence>
+    <>
       <motion.div
         className="modal-overlay"
         initial={{ opacity: 0 }}
@@ -28,6 +28,7 @@ export default function ProjectModal({ project, onClose }) {
             className="modal-hero-cover"
             src={project.cover}
             alt=""
+            decoding="async"
           />
           <div
             className="modal-hero-overlay"
@@ -107,6 +108,6 @@ export default function ProjectModal({ project, onClose }) {
           </div>
         </div>
       </motion.aside>
-    </AnimatePresence>
+    </>
   );
 }

@@ -3,6 +3,72 @@ import { ArrowUpRight } from 'lucide-react';
 import { projects } from '../data/projects';
 import ProjectModal from './ProjectModal';
 import useScrollReveal from '../hooks/useScrollReveal';
+import { AnimatePresence } from 'framer-motion';
+
+function ProjectImage({ src, alt, color, accent }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+      {loading && (
+        <div 
+          className="shimmer" 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(90deg, rgba(244,240,232,0.03) 25%, rgba(244,240,232,0.1) 50%, rgba(244,240,232,0.03) 75%)',
+            backgroundSize: '200% 100%',
+            animation: 'shimmer 1.5s infinite linear',
+            zIndex: 3
+          }}
+        />
+      )}
+      {!error ? (
+        <img
+          className="project-card-cover"
+          src={src}
+          alt={alt}
+          onLoad={() => setLoading(false)}
+          onError={() => {
+            setLoading(false);
+            setError(true);
+          }}
+          loading="lazy"
+          decoding="async"
+          draggable="false"
+          style={{
+            opacity: loading ? 0 : 1,
+            transition: 'opacity 0.4s ease',
+            zIndex: 0
+          }}
+        />
+      ) : (
+        <div 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `linear-gradient(135deg, ${color}dd 0%, ${accent}aa 100%)`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 0
+          }}
+        >
+          <span style={{ 
+            fontFamily: 'var(--font-display)', 
+            fontSize: '1.75rem', 
+            fontWeight: 'bold', 
+            color: '#f4f0e8',
+            opacity: 0.8
+          }}>
+            {alt}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Work() {
   const [selected, setSelected] = useState(null);
@@ -11,11 +77,23 @@ export default function Work() {
   const trackRef = useRef(null);
   const sectionRef = useScrollReveal();
 
+  // Drag scrolling state refs
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const startScrollY = useRef(0);
+  const hasDragged = useRef(false);
+  const dragThreshold = 5;
+
   useEffect(() => {
     const onScroll = () => {
       const outer = outerRef.current;
       const track = trackRef.current;
-      if (!outer || !track || window.innerWidth <= 768) return;
+      if (!outer || !track) return;
+
+      if (window.innerWidth <= 768) {
+        track.style.transform = '';
+        return;
+      }
 
       const rect = outer.getBoundingClientRect();
       const scrollable = outer.offsetHeight - window.innerHeight;
@@ -29,7 +107,78 @@ export default function Work() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        if (trackRef.current) trackRef.current.style.transform = '';
+      } else {
+        onScroll();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handleMouseDown = (e) => {
+    if (window.innerWidth <= 768) return;
+    isDragging.current = true;
+    startX.current = e.clientX;
+    startScrollY.current = window.scrollY;
+    hasDragged.current = false;
+
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'grabbing';
+    if (trackRef.current) {
+      trackRef.current.classList.add('dragging');
+    }
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging.current) return;
+      const outer = outerRef.current;
+      const track = trackRef.current;
+      if (!outer || !track) return;
+
+      const maxTranslate = track.scrollWidth - window.innerWidth + 80;
+      const scrollableHeight = outer.offsetHeight - window.innerHeight;
+      if (scrollableHeight <= 0 || maxTranslate <= 0) return;
+
+      const deltaX = e.clientX - startX.current;
+      if (Math.abs(deltaX) > dragThreshold) {
+        hasDragged.current = true;
+      }
+
+      const ratio = maxTranslate / scrollableHeight;
+      const deltaY = -deltaX / ratio;
+
+      window.scrollTo({
+        top: startScrollY.current + deltaY,
+        behavior: 'auto'
+      });
+    };
+
+    const handleMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false;
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+        if (trackRef.current) {
+          trackRef.current.classList.remove('dragging');
+        }
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
   }, []);
 
   return (
@@ -42,7 +191,7 @@ export default function Work() {
                 <div>
                   <p className="eyebrow reveal">Selected Work</p>
                   <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-                    Three projects,<br />one practice.
+                    Four projects,<br />one practice.
                   </h2>
                 </div>
                 <span className="section-index reveal reveal-delay-2">01</span>
@@ -50,22 +199,40 @@ export default function Work() {
             </div>
 
             <div className="work-track-wrap">
-              <div className="work-track" ref={trackRef}>
+              <div 
+                className="work-track" 
+                ref={trackRef}
+                onMouseDown={handleMouseDown}
+              >
                 {projects.map((project, i) => (
                   <button
                     key={project.id}
                     className="project-card"
-                    onClick={() => setSelected(project)}
+                    onClick={(e) => {
+                      if (hasDragged.current) {
+                        e.preventDefault();
+                        return;
+                      }
+                      setSelected(project);
+                    }}
                     aria-label={`Open ${project.name} details`}
                   >
                     <div className="project-card-visual">
-                      <img
-                        className="project-card-cover"
-                        src={project.cover}
-                        alt=""
-                        loading="lazy"
-                        draggable="false"
-                      />
+                      <div className="project-browser-bar">
+                        <span className="browser-dot red" />
+                        <span className="browser-dot yellow" />
+                        <span className="browser-dot green" />
+                        <span className="browser-url-bar">{project.id}.local</span>
+                      </div>
+                      
+                      <div className="project-image-wrap">
+                        <ProjectImage 
+                          src={project.cover} 
+                          alt={project.name} 
+                          color={project.color} 
+                          accent={project.accent} 
+                        />
+                      </div>
                       <div
                         className="project-card-bg"
                         style={{
@@ -90,7 +257,7 @@ export default function Work() {
             </div>
 
             <div className="work-progress" aria-hidden="true">
-              <span className="work-progress-label">Drag scroll</span>
+              <span className="work-progress-label">Drag or scroll</span>
               <div className="work-progress-bar">
                 <div className="work-progress-fill" style={{ width: `${progress}%` }} />
               </div>
@@ -100,9 +267,11 @@ export default function Work() {
         </div>
       </section>
 
-      {selected && (
-        <ProjectModal project={selected} onClose={() => setSelected(null)} />
-      )}
+      <AnimatePresence>
+        {selected && (
+          <ProjectModal project={selected} onClose={() => setSelected(null)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

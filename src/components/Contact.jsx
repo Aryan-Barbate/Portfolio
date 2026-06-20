@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send, Loader2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { Github, Linkedin } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 
@@ -10,7 +11,7 @@ export default function Contact() {
 
   // The user can configure their Formspree ID here.
   // If it remains the placeholder, the form will fall back to mailto automatically.
-  const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; 
+  const FORMSPREE_ID = 'https://formspree.io/f/mkoadyrz'; 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +29,11 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const formspreeUrl = FORMSPREE_ID.startsWith('http')
+        ? FORMSPREE_ID
+        : `https://formspree.io/f/${FORMSPREE_ID}`;
+
+      const response = await fetch(formspreeUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,6 +49,12 @@ export default function Contact() {
       if (response.ok) {
         setStatus('success');
         setForm({ name: '', email: '', message: '' });
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#e85d04', '#c44d00', '#2a2824', '#ebe5d9']
+        });
       } else {
         throw new Error('Form submission failed');
       }
