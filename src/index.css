@@ -1181,6 +1181,72 @@ section {
   color: var(--paper);
 }
 
+/* Premium Dark Mode / Glassmorphism Capabilities */
+.capabilities-dark-section {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.capabilities-dark-section .capability-group-card.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.4s var(--ease-out);
+}
+
+.capabilities-dark-section .capability-group-card.glass-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px 0 rgba(232, 93, 4, 0.15); /* Accent glow */
+}
+
+.capabilities-dark-section .capability-group-name {
+  color: #fff;
+}
+
+.capabilities-dark-section .capability-group-desc {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.capabilities-dark-section .capability-group-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.capabilities-dark-section .capability-tag {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.capabilities-dark-section .capability-tag:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.capability-tag.learned {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+.capability-tag.learned:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+  color: #fff;
+}
+
+.capability-tag.learning {
+  border-style: dashed;
+  border-color: rgba(255, 189, 46, 0.4);
+}
+.capability-tag.learning:hover {
+  background: rgba(255, 189, 46, 0.2);
+  border-color: #ffbd2e;
+  color: #fff;
+}
+
 /* About */
 .about-section {
   background: var(--paper-warm);

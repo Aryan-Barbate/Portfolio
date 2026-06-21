@@ -11,33 +11,29 @@ export default function Capabilities() {
   }));
 
   return (
-    <section id="capabilities" className="section-pad" ref={sectionRef}>
+    <section id="capabilities" className="section-pad capabilities-dark-section" ref={sectionRef}>
       <div className="container">
         <div className="section-header section-header-row">
           <div>
-            <p className="eyebrow">Capabilities</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              What I work with.
+            <p className="eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>Capabilities & Stack</p>
+            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', color: '#fff' }}>
+              My Technical Arsenal.
             </h2>
           </div>
-          <span className="section-index reveal reveal-delay-2">03</span>
+          <span className="section-index reveal reveal-delay-2" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>03</span>
         </div>
 
         <div className="capabilities-new-layout">
           <div className="capabilities-intro reveal">
-            <p className="body-text" style={{ maxWidth: '680px' }}>
-              No inflated percentages — just an honest map of what I use daily,
-              what I'm sharpening, and what I'm growing into.
-            </p>
-            <p className="body-sm" style={{ marginTop: '1rem', maxWidth: '680px' }}>
-              Currently sharpening API-driven interfaces and motion design —
-              making data-heavy tools feel fast, clear, and alive.
+            <p className="body-text" style={{ maxWidth: '680px', color: 'rgba(255,255,255,0.8)' }}>
+              A living map of the languages, frameworks, and tools I use to build,
+              analyze, and create—from low-level logic to AI-assisted workflows.
             </p>
           </div>
 
           <div className="capabilities-grid reveal reveal-delay-2">
             {grouped.map(group => (
-              <div key={group.name} className="capability-group-card">
+              <div key={group.name} className="capability-group-card glass-card">
                 <div className="capability-group-header">
                   <span className="capability-group-name">{group.name}</span>
                   <span className="capability-group-desc">{group.description}</span>
@@ -46,7 +42,7 @@ export default function Capabilities() {
                   {group.items.map(skill => (
                     <span
                       key={skill.id}
-                      className={`capability-tag ${group.name === 'Growing' ? 'growing' : ''}`}
+                      className={`capability-tag ${skill.tag ? skill.tag.toLowerCase() : ''}`}
                     >
                       {skill.label}
                     </span>
