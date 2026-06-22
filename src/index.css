@@ -1183,8 +1183,12 @@ section {
 
 /* Premium Dark Mode / Glassmorphism Capabilities */
 .capabilities-dark-section {
-  background: var(--ink);
-  color: var(--paper);
+  background: #0a0a0a;
+  color: #f4f0e8;
+}
+
+:root.dark .capabilities-dark-section {
+  background: var(--paper);
 }
 
 .capabilities-dark-section .capability-group-card.glass-card {
