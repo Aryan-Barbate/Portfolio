@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { GitPullRequest, GitCommit, Star, Folder, Terminal, Loader2, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
+import { projects } from '../data/projects';
 
 // Matrix Rain Canvas component
 function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {

@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { MapPin } from 'lucide-react';
 import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
+import ChessGame from './ChessGame';
 
 export default function About() {
   const sectionRef = useScrollReveal();
@@ -40,7 +42,7 @@ export default function About() {
               </div>
             </div>
 
-            <div className="about-links">
+            <div className="about-links" style={{ marginBottom: 'var(--space-6)' }}>
               <a 
                 href="https://www.google.com/maps/place/India" 
                 target="_blank" 
@@ -63,6 +65,8 @@ export default function About() {
                 <span style={{ fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>↓ Resume / CV</span>
               </a>
             </div>
+
+            <ChessGame />
           </aside>
 
           <div className="about-prose reveal reveal-delay-2">
