@@ -3506,3 +3506,114 @@ canvas {
 .chess-score-sep {
   color: var(--line);
 }
+
+/* Loader */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.loader-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.loader-logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.loader-logo::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--accent) 0%,
+    var(--accent) var(--loader-progress, 0%),
+    var(--line) var(--loader-progress, 0%),
+    var(--line) 100%
+  );
+  animation: loader-spin 2s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--paper);
+  letter-spacing: -0.03em;
+}
+
+.loader-progress {
+  width: 200px;
+  height: 1px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.loader-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+.loader-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.loader-percentage {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  min-width: 40px;
+  text-align: right;
+}
+
+.loader-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.loader-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 80px;
+  height: 80px;
+  margin-top: var(--space-4);
+}
+
+.loader-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink);
+}
