@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import AnimatedThemeToggler from './AnimatedThemeToggler';
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -60,10 +60,6 @@ export default function Nav() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const toggleTheme = () => {
-    setTheme(t => t === 'light' ? 'dark' : 'light');
-  };
-
   return (
     <>
       <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
@@ -113,13 +109,12 @@ export default function Nav() {
             </button>
           </li>
           <li>
-            <button
-              onClick={toggleTheme}
+            <AnimatedThemeToggler
+              theme={theme}
+              onThemeChange={setTheme}
               className="theme-toggle"
               aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-            </button>
+            />
           </li>
           <li>
             <a
@@ -180,14 +175,13 @@ export default function Nav() {
               </svg>
               <span>Command Center</span>
             </button>
-            <button
-              onClick={toggleTheme}
+            <AnimatedThemeToggler
+              theme={theme}
+              onThemeChange={setTheme}
               className="theme-toggle"
               aria-label="Toggle theme"
               style={{ padding: '12px', width: '44px', height: '44px' }}
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+            />
           </li>
         </ul>
       </div>
