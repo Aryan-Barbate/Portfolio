@@ -5,6 +5,7 @@ import useScrollReveal from '../hooks/useScrollReveal';
 import ChessGame from './ChessGame';
 import Text3DFlip from './Text3DFlip';
 import Highlighter from './Highlighter';
+import NumberTicker from './NumberTicker';
 
 export default function About() {
   const sectionRef = useScrollReveal();
@@ -36,7 +37,7 @@ export default function About() {
 
             <div className="about-stat-grid">
               <div className="about-stat">
-                <div className="about-stat-value">4</div>
+                <div className="about-stat-value"><NumberTicker value={4} /></div>
                 <div className="about-stat-label">Projects shipped</div>
               </div>
               <div className="about-stat">

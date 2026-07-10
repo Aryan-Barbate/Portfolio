@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { projects } from '../data/projects';
 import Text3DFlip from './Text3DFlip';
+import NumberTicker from './NumberTicker';
 
 // Matrix Rain Canvas component
 function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
@@ -628,15 +629,15 @@ export default function GithubConsole() {
 
             <div className="metrics-grid">
               <div className="metric-card">
-                <div className="metric-value">{activeStats.repos}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.repos ?? 0} /></div>
                 <div className="metric-label">Repositories</div>
               </div>
               <div className="metric-card">
-                <div className="metric-value">{activeStats.followers}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.followers ?? 0} /></div>
                 <div className="metric-label">Followers</div>
               </div>
               <div className="metric-card">
-                <div className="metric-value">{activeStats.gists}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.gists ?? 0} /></div>
                 <div className="metric-label">Active Gists</div>
               </div>
               <div className="metric-card highlight">
