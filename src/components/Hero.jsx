@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Text3DFlip from './Text3DFlip';
 
 const lines = [
   { text: 'Aryan', accent: false },
@@ -38,7 +39,7 @@ export default function Hero() {
                   transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                   className={line.accent ? 'hero-title-accent' : ''}
                 >
-                  {line.text}
+                  <Text3DFlip as="span">{line.text}</Text3DFlip>
                 </motion.span>
               </span>
             ))}

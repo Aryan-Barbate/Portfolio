@@ -1,4 +1,5 @@
 import useScrollReveal from '../hooks/useScrollReveal';
+import Text3DFlip from './Text3DFlip';
 
 const phases = [
   {
@@ -45,7 +46,7 @@ export default function Journey() {
           <div>
             <p className="eyebrow reveal">Journey</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              How I got here.
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>How I got here.</Text3DFlip>
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">02</span>

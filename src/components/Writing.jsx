@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, BookOpen, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useScrollReveal from '../hooks/useScrollReveal';
+import Text3DFlip from './Text3DFlip';
 
 const posts = [
   {
@@ -51,7 +52,8 @@ export default function Writing() {
           <div>
             <p className="eyebrow">Journal</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              Writing on the<br />process of build.
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Writing on the</Text3DFlip><br />
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>process of build.</Text3DFlip>
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">06</span>

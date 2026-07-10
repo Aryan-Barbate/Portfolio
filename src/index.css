@@ -3646,3 +3646,42 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
 html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   clip-path: var(--magicui-theme-vt-clip-from);
 }
+
+/* Text3DFlip — scoped utility/3D classes */
+.text-3d-flip-root {
+  position: relative;
+  display: inline;
+}
+.text-3d-flip-word {
+  display: inline-flex;
+}
+.text-3d-flip-space {
+  white-space: pre;
+}
+.text-3d-flip-char {
+  display: inline-block;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.text-3d-flip-char > span {
+  height: 1lh;
+}
+.text-3d-flip-front {
+  position: relative;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.text-3d-flip-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.contact-em-flip {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--accent);
+}

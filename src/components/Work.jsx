@@ -4,6 +4,7 @@ import { projects } from '../data/projects';
 import ProjectModal from './ProjectModal';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { AnimatePresence } from 'framer-motion';
+import Text3DFlip from './Text3DFlip';
 
 function ProjectImage({ src, alt, color, accent }) {
   const [loading, setLoading] = useState(true);
@@ -191,7 +192,8 @@ export default function Work() {
                 <div>
                   <p className="eyebrow reveal">Selected Work</p>
                   <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-                    Four projects,<br />one practice.
+                    <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Four projects,</Text3DFlip><br />
+                    <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>one practice.</Text3DFlip>
                   </h2>
                 </div>
                 <span className="section-index reveal reveal-delay-2">01</span>

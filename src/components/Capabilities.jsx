@@ -1,5 +1,6 @@
 import { skills, skillGroups } from '../data/skills';
 import useScrollReveal from '../hooks/useScrollReveal';
+import Text3DFlip from './Text3DFlip';
 
 export default function Capabilities() {
   const sectionRef = useScrollReveal();
@@ -17,7 +18,7 @@ export default function Capabilities() {
           <div>
             <p className="eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>Capabilities & Stack</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', color: '#fff' }}>
-              My Technical Arsenal.
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>My Technical Arsenal.</Text3DFlip>
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>03</span>

@@ -3,6 +3,7 @@ import { Send, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Github, Linkedin } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
+import Text3DFlip from './Text3DFlip';
 
 export default function Contact() {
   const sectionRef = useScrollReveal();
@@ -75,8 +76,8 @@ export default function Contact() {
           <div className="reveal">
             <p className="eyebrow">Contact</p>
             <h2 className="contact-headline" style={{ marginTop: '1.5rem' }}>
-              Let's build<br />
-              <em>something real.</em>
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Let's build</Text3DFlip><br />
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }} flipTextClassName="contact-em-flip">something real.</Text3DFlip>
             </h2>
             <p className="body-text" style={{ color: 'rgba(244,240,232,0.55)', marginTop: '1.5rem', maxWidth: 400 }}>
               Open to conversations, collaboration, and building. If something resonated here, reach out.

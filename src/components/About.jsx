@@ -3,6 +3,7 @@ import { MapPin } from 'lucide-react';
 import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import ChessGame from './ChessGame';
+import Text3DFlip from './Text3DFlip';
 
 export default function About() {
   const sectionRef = useScrollReveal();
@@ -14,7 +15,8 @@ export default function About() {
           <div>
             <p className="eyebrow">About</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              The builder behind<br />the work.
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>The builder behind</Text3DFlip><br />
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>the work.</Text3DFlip>
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">05</span>

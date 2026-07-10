@@ -3,6 +3,7 @@ import { GitPullRequest, GitCommit, Star, Folder, Terminal, Loader2, Sparkles } 
 import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { projects } from '../data/projects';
+import Text3DFlip from './Text3DFlip';
 
 // Matrix Rain Canvas component
 function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
@@ -435,7 +436,7 @@ export default function GithubConsole() {
           <div>
             <p className="eyebrow">Command Center</p>
             <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              Live code stream.
+              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Live code stream.</Text3DFlip>
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">04</span>
