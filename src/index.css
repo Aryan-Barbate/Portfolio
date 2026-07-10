@@ -3685,3 +3685,9 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   text-transform: none;
   color: var(--accent);
 }
+
+.magic-highlighter {
+  display: inline-block;
+  position: relative;
+  background: transparent;
+}

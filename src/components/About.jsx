@@ -4,6 +4,7 @@ import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import ChessGame from './ChessGame';
 import Text3DFlip from './Text3DFlip';
+import Highlighter from './Highlighter';
 
 export default function About() {
   const sectionRef = useScrollReveal();
@@ -74,23 +75,23 @@ export default function About() {
           <div className="about-prose reveal reveal-delay-2">
             <p className="body-text">
               I'm a developer at the beginning of something — not at the start of a career,
-              but someone who builds things, ships them, and immediately thinks about what
+              but someone who <Highlighter action="highlight" color="#e85d04" isView>builds things, ships them</Highlighter>, and immediately thinks about what
               would make them better.
             </p>
 
             <blockquote className="about-quote">
-              "I'm not trying to look senior. I'm trying to build in a way that makes seniority inevitable."
+              "I'm not trying to look senior. I'm trying to build in a way that makes <Highlighter action="underline" color="#FF9800" isView>seniority inevitable</Highlighter>."
             </blockquote>
 
             <p className="body-text">
-              I approach code the way a chess player approaches an opening: with studied
+              I approach code the way a <Highlighter action="circle" color="#ffd1dc" isView>chess player approaches an opening</Highlighter>: with studied
               intentionality. Every project is a position on the board. You learn the patterns,
               understand the logic, then iterate toward something better.
             </p>
 
             <p className="body-text">
               Right now I'm deep in the frontend — React, JavaScript, CSS — building
-              tools that talk to real APIs and experiences that reward attention.
+              tools that talk to real APIs and <Highlighter action="box" color="#87CEFA" isView>experiences that reward attention</Highlighter>.
               What you see here is small in quantity but high in intention. AniScope
               talks to a real API. GitHub Finder is a real tool. Linea Flora is an
               interactive bouquet builder. The Gallery of Senses is a real creative
