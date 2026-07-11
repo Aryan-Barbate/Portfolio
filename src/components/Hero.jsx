@@ -1,7 +1,10 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import TextPressure from './TextPressure';
+import VariableProximity from './VariableProximity';
 
 export default function Hero() {
+  const textRef = useRef(null);
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -41,16 +44,20 @@ export default function Hero() {
           </div>
         </div>
 
-        <motion.p
+        <div
+          ref={textRef}
           className="body-text hero-sub"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
+          style={{ position: 'relative' }}
         >
-          I build interfaces with intention — live API tools, creative experiments,
-          and polished front-end craft. Small in quantity,{' '}
-          <span className="serif-italic">high in craft.</span>
-        </motion.p>
+          <VariableProximity
+            label={'I build interfaces with intention — live API tools, creative experiments, and polished front-end craft. Small in quantity, high in craft.'}
+            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+            toFontVariationSettings="'wght' 900, 'opsz' 40"
+            containerRef={textRef}
+            radius={150}
+            falloff='linear'
+          />
+        </div>
 
         <motion.div
           className="hero-actions"

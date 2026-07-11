@@ -4,7 +4,8 @@ import { projects } from '../data/projects';
 import ProjectModal from './ProjectModal';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { AnimatePresence } from 'framer-motion';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
+
 
 function ProjectImage({ src, alt, color, accent }) {
   const [loading, setLoading] = useState(true);
@@ -72,6 +73,7 @@ function ProjectImage({ src, alt, color, accent }) {
 }
 
 export default function Work() {
+  const titleRef = useRef(null);
   const [selected, setSelected] = useState(null);
   const [progress, setProgress] = useState(0);
   const outerRef = useRef(null);
@@ -191,10 +193,16 @@ export default function Work() {
               <div className="section-header-row">
                 <div>
                   <p className="eyebrow reveal">Selected Work</p>
-                  <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-                    <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Four projects,</Text3DFlip><br />
-                    <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>one practice.</Text3DFlip>
-                  </h2>
+                  <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Four projects, one practice.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
+            </h2>
                 </div>
                 <span className="section-index reveal reveal-delay-2">01</span>
               </div>

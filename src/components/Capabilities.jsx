@@ -1,8 +1,11 @@
+import { useRef } from 'react';
 import { skills, skillGroups } from '../data/skills';
 import useScrollReveal from '../hooks/useScrollReveal';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
+
 
 export default function Capabilities() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   const grouped = Object.entries(skillGroups).map(([name, meta]) => ({
@@ -17,8 +20,15 @@ export default function Capabilities() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>Capabilities & Stack</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', color: '#fff' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>My Technical Arsenal.</Text3DFlip>
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'My Technical Arsenal.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>03</span>

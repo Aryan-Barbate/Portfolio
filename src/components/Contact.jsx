@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Github, Linkedin, Twitter, Instagram } from './BrandIcons';
 import { Mail } from 'lucide-react';
 import useScrollReveal from '../hooks/useScrollReveal';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
 import SocialFlipButton from './SocialFlipButton';
 
 export default function Contact() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
@@ -90,9 +91,15 @@ export default function Contact() {
         <div className="contact-layout">
           <div className="reveal">
             <p className="eyebrow">Contact</p>
-            <h2 className="contact-headline" style={{ marginTop: '1.5rem' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Let's build</Text3DFlip><br />
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }} flipTextClassName="contact-em-flip">something real.</Text3DFlip>
+            <h2 ref={titleRef} className="contact-headline" style={{ marginTop: '1.5rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Let\'s build something real.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
             <p className="body-text" style={{ color: 'rgba(244,240,232,0.55)', marginTop: '1.5rem', maxWidth: 400 }}>
               Open to conversations, collaboration, and building. If something resonated here, reach out.

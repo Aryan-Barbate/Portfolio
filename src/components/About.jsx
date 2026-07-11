@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { MapPin } from 'lucide-react';
 import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import ChessGame from './ChessGame';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
+
 import Highlighter from './Highlighter';
 import NumberTicker from './NumberTicker';
 
 export default function About() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   return (
@@ -16,9 +18,15 @@ export default function About() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">About</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>The builder behind</Text3DFlip><br />
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>the work.</Text3DFlip>
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'The builder behind the work.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">05</span>

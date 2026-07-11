@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import useScrollReveal from '../hooks/useScrollReveal';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
+
 
 const phases = [
   {
@@ -37,6 +39,7 @@ const phases = [
 ];
 
 export default function Journey() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   return (
@@ -45,8 +48,15 @@ export default function Journey() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow reveal">Journey</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>How I got here.</Text3DFlip>
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'How I got here.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">02</span>

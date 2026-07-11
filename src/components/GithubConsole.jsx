@@ -3,7 +3,7 @@ import { GitPullRequest, GitCommit, Star, Folder, Terminal, Loader2, Sparkles } 
 import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { projects } from '../data/projects';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
 import NumberTicker from './NumberTicker';
 
 // Matrix Rain Canvas component
@@ -85,6 +85,7 @@ function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
 }
 
 export default function GithubConsole() {
+  const titleRef = useRef(null);
   const [events, setEvents] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -436,8 +437,15 @@ export default function GithubConsole() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">Command Center</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Live code stream.</Text3DFlip>
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Live code stream.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">04</span>

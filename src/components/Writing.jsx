@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { X, BookOpen, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useScrollReveal from '../hooks/useScrollReveal';
-import Text3DFlip from './Text3DFlip';
+import VariableProximity from './VariableProximity';
+
 
 const posts = [
   {
@@ -42,6 +43,7 @@ If a screen runs at 144Hz, animations can run twice as fast as on a 60Hz screen 
 ];
 
 export default function Writing() {
+  const titleRef = useRef(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const sectionRef = useScrollReveal();
 
@@ -51,9 +53,15 @@ export default function Writing() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">Journal</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>Writing on the</Text3DFlip><br />
-              <Text3DFlip as="span" staggerDuration={0.1} transition={{ type: 'spring', damping: 18, stiffness: 100 }}>process of build.</Text3DFlip>
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Writing on the process of build.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">06</span>
