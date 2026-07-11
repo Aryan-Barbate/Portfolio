@@ -1,10 +1,5 @@
 import { motion } from 'framer-motion';
-import Text3DFlip from './Text3DFlip';
-
-const lines = [
-  { text: 'Aryan', accent: false },
-  { text: 'Barbate', accent: true },
-];
+import TextPressure from './TextPressure';
 
 export default function Hero() {
   const scrollTo = (id) => {
@@ -30,20 +25,20 @@ export default function Hero() {
         </div>
 
         <div className="hero-title-wrap">
-          <h1 className="display-hero">
-            {lines.map((line, i) => (
-              <span key={line.text} className="hero-title-line">
-                <motion.span
-                  initial={{ y: '110%' }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  className={line.accent ? 'hero-title-accent' : ''}
-                >
-                  <Text3DFlip as="span">{line.text}</Text3DFlip>
-                </motion.span>
-              </span>
-            ))}
-          </h1>
+          <div style={{ position: 'relative', height: 'clamp(150px, 20vw, 300px)' }}>
+            <TextPressure
+              text="ARYAN BARBATE"
+              flex={true}
+              alpha={false}
+              stroke={false}
+              width={true}
+              weight={true}
+              italic={true}
+              textColor="currentColor"
+              strokeColor="#ff0000"
+              minFontSize={36}
+            />
+          </div>
         </div>
 
         <motion.p

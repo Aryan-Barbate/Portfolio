@@ -16,7 +16,8 @@
     "lucide-react": "^1.20.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "rough-notation": "^0.5.1"
+    "rough-notation": "^0.5.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
