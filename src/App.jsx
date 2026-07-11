@@ -16,6 +16,7 @@ import About from './components/About';
 import Writing from './components/Writing';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,6 +51,7 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
       <Grain />
       <CommandPalette />
       <Nav />

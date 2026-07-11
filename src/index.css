@@ -447,7 +447,7 @@ section {
   filter: blur(40px);
   pointer-events: none;
   animation: orb-drift 12s ease-in-out infinite alternate;
-  will-change: transform, filter;
+  will-change: transform;
   transform: translateZ(0);
 }
 

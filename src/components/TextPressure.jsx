@@ -56,22 +56,22 @@ const TextPressure = ({
 
   useEffect(() => {
     const handleMouseMove = e => {
-      cursorRef.current.x = e.clientX;
-      cursorRef.current.y = e.clientY;
+      cursorRef.current.x = e.pageX;
+      cursorRef.current.y = e.pageY;
     };
     const handleTouchMove = e => {
       const t = e.touches[0];
-      cursorRef.current.x = t.clientX;
-      cursorRef.current.y = t.clientY;
+      cursorRef.current.x = t.pageX;
+      cursorRef.current.y = t.pageY;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     if (containerRef.current) {
       const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      mouseRef.current.x = left + width / 2;
-      mouseRef.current.y = top + height / 2;
+      mouseRef.current.x = left + window.scrollX + width / 2;
+      mouseRef.current.y = top + window.scrollY + height / 2;
       cursorRef.current.x = mouseRef.current.x;
       cursorRef.current.y = mouseRef.current.y;
     }
@@ -80,6 +80,22 @@ const TextPressure = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
     };
+  }, []);
+
+  const charPositionsRef = useRef([]);
+  const titleRectRef = useRef({ width: 0 });
+
+  const calculatePositions = useCallback(() => {
+    if (!titleRef.current) return;
+    titleRectRef.current = titleRef.current.getBoundingClientRect();
+    charPositionsRef.current = spansRef.current.map(span => {
+      if (!span) return null;
+      const rect = span.getBoundingClientRect();
+      return {
+        x: rect.left + window.scrollX + rect.width / 2,
+        y: rect.top + window.scrollY + rect.height / 2
+      };
+    });
   }, []);
 
   const setSize = useCallback(() => {
@@ -103,8 +119,11 @@ const TextPressure = ({
         setScaleY(yRatio);
         setLineHeight(yRatio);
       }
+      
+      // Calculate positions after font sizing is done
+      requestAnimationFrame(calculatePositions);
     });
-  }, [chars.length, minFontSize, scale]);
+  }, [chars.length, minFontSize, scale, calculatePositions]);
 
   useEffect(() => {
     const debouncedSetSize = debounce(setSize, 100);
@@ -132,18 +151,14 @@ const TextPressure = ({
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
 
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
+      if (titleRef.current && titleRectRef.current.width > 0) {
+        const maxDist = titleRectRef.current.width / 2;
 
-        spansRef.current.forEach(span => {
+        spansRef.current.forEach((span, i) => {
           if (!span) return;
 
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2
-          };
+          const charCenter = charPositionsRef.current[i];
+          if (!charCenter) return;
 
           const d = dist(mouseRef.current, charCenter);
 
