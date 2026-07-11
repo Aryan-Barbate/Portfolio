@@ -629,12 +629,12 @@ section {
 
 /* Work — horizontal scroll */
 .work-section {
-  background: var(--ink);
-  color: var(--paper);
+  /* Removed inverted background/color to let it match the theme */
+  position: relative;
 }
 
-.work-section .eyebrow { color: rgba(244, 240, 232, 0.5); }
-.work-section .section-index { -webkit-text-stroke-color: rgba(244, 240, 232, 0.15); }
+.work-section .eyebrow { color: var(--muted); }
+/* Removed .section-index override so it uses var(--line-strong) properly */
 
 .work-scroll-outer {
   height: 200vh;
@@ -877,21 +877,46 @@ section {
 
 .modal-panel {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(640px, 100vw);
+  top: 4vh;
+  bottom: 4vh;
+  left: 4vw;
+  right: 4vw;
+  width: auto;
+  max-width: 1400px;
+  margin: 0 auto;
   background: var(--paper);
   z-index: 301;
-  overflow-y: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 900px) {
+  .modal-panel {
+    top: 2vh;
+    bottom: 2vh;
+    left: 2vw;
+    right: 2vw;
+    flex-direction: column;
+    border-radius: 24px;
+  }
 }
 
 .modal-hero {
   position: relative;
-  height: 220px;
+  width: 50%;
+  height: 100%;
   overflow: hidden;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .modal-hero {
+    width: 100%;
+    height: 35vh;
+  }
 }
 
 .modal-hero-cover {
@@ -932,11 +957,12 @@ section {
 }
 
 .modal-body {
-  padding: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
   flex: 1;
+  overflow-y: auto;
 }
 
 .modal-title {

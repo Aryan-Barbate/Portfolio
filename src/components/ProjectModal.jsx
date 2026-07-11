@@ -9,21 +9,22 @@ export default function ProjectModal({ project, onClose }) {
     <>
       <motion.div
         className="modal-overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+        animate={{ opacity: 1, backdropFilter: 'blur(4px)' }}
+        exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+        transition={{ duration: 0.3 }}
         onClick={onClose}
       />
       <motion.aside
         className="modal-panel"
-        initial={{ x: '100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '100%' }}
-        transition={{ type: 'spring', damping: 32, stiffness: 300 }}
+        initial={{ y: '5vh', opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+        animate={{ y: 0, opacity: 1, scale: 1, filter: 'blur(0px)' }}
+        exit={{ y: '5vh', opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+        transition={{ type: 'spring', damping: 25, stiffness: 250, staggerChildren: 0.05, delayChildren: 0.1 }}
         aria-label={`${project.name} project details`}
         role="dialog"
       >
-        <div className="modal-hero">
+        <motion.div className="modal-hero" variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }} initial="hidden" animate="visible" exit="hidden">
           <img
             className="modal-hero-cover"
             src={project.cover}
@@ -39,52 +40,52 @@ export default function ProjectModal({ project, onClose }) {
           <button className="modal-close" onClick={onClose} aria-label="Close">
             <X size={18} />
           </button>
-        </div>
+        </motion.div>
 
-        <div className="modal-body">
-          <div>
+        <motion.div className="modal-body" initial="hidden" animate="visible" exit="hidden" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="eyebrow">{project.tag} · {project.year}</p>
             <h2 className="modal-title" style={{ marginTop: '0.75rem' }}>{project.name}</h2>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="modal-block-label">Overview</p>
             <p className="body-text">{project.purpose}</p>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="modal-block-label">Stack</p>
             <div className="modal-tags">
               {project.stack.map(tech => (
                 <span key={tech} className="modal-tag">{tech}</span>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="modal-block-label">Context</p>
             <p className="body-sm" style={{ color: 'var(--ink-soft)', lineHeight: 1.75 }}>
               {project.description}
             </p>
-          </div>
+          </motion.div>
 
-          <div className="modal-quote">
+          <motion.div className="modal-quote" variants={{ hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } }}>
             <p>{project.takeaway}</p>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="modal-block-label">What I learned</p>
             <p className="body-sm" style={{ color: 'var(--ink-soft)', lineHeight: 1.75, fontStyle: 'italic' }}>
               {project.taught}
             </p>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, visible: { opacity: 1, x: 0 } }}>
             <p className="modal-block-label">Next</p>
             <p className="body-sm" style={{ color: 'var(--muted)' }}>{project.nextEvolution}</p>
-          </div>
+          </motion.div>
 
-          <div className="modal-links">
+          <motion.div className="modal-links" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
             {project.live && (
               <a
                 href={project.live}
@@ -105,8 +106,8 @@ export default function ProjectModal({ project, onClose }) {
               <Github size={14} />
               Source
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </motion.aside>
     </>
   );
