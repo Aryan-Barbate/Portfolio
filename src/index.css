@@ -2553,7 +2553,7 @@ section {
 }
 
 /* Ensure smooth transition when changing themes */
-body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-input, .form-textarea, .btn {
+nav, .about-card, .project-card, .modal-panel, .contact-form, .form-input, .form-textarea, .btn {
   transition: background-color 0.4s var(--ease-out), 
               color 0.4s var(--ease-out), 
               border-color 0.4s var(--ease-out),

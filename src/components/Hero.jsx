@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import TextPressure from './TextPressure';
 import VariableProximity from './VariableProximity';
+import Galaxy from './Galaxy';
 
 export default function Hero() {
   const textRef = useRef(null);
@@ -11,7 +12,18 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
-      <div className="hero-orb" aria-hidden="true" style={{ zIndex: 1 }} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }}>
+        <Galaxy 
+          transparent={true}
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={0.7}
+          glowIntensity={0.5}
+          rotationSpeed={0.05}
+          repulsionStrength={2.5}
+          starSpeed={0.4}
+        />
+      </div>
 
       <div className="container hero-inner" style={{ position: 'relative', zIndex: 2, pointerEvents: 'none' }}>
         <div className="hero-top-row" style={{ pointerEvents: 'auto' }}>

@@ -1,30 +1,88 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Home, Briefcase, Map, Wrench, User, PenTool, Mail, Command } from 'lucide-react';
 import AnimatedThemeToggler from './AnimatedThemeToggler';
+import './Nav.css';
 
 const sections = [
-  { id: 'hero', label: 'Home' },
-  { id: 'work', label: 'Work' },
-  { id: 'journey', label: 'Journey' },
-  { id: 'capabilities', label: 'Skills' },
-  { id: 'about', label: 'About' },
-  { id: 'writing', label: 'Writing' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'hero', label: 'Home', icon: Home },
+  { id: 'work', label: 'Work', icon: Briefcase },
+  { id: 'journey', label: 'Journey', icon: Map },
+  { id: 'capabilities', label: 'Skills', icon: Wrench },
+  { id: 'about', label: 'About', icon: User },
+  { id: 'writing', label: 'Writing', icon: PenTool },
+  { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
+function DockItem({ mouseX, section, onClick, isActive }) {
+  const ref = useRef(null);
+
+  // Measure distance from mouse to center of this icon
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return val - bounds.x - bounds.width / 2;
+  });
+
+  // Calculate width based on distance. If close, bigger width (80px), else normal (48px)
+  const widthSync = useTransform(distance, [-150, 0, 150], [48, 80, 48]);
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
+
+  const Icon = section.icon;
+
+  return (
+    <motion.button
+      ref={ref}
+      style={{ width }}
+      onClick={onClick}
+      className={`dock-item ${isActive ? 'active' : ''}`}
+      aria-label={section.label}
+    >
+      <Icon size={20} strokeWidth={2} />
+      <span className="dock-tooltip">{section.label}</span>
+    </motion.button>
+  );
+}
+
+function DockThemeItem({ mouseX, theme, setTheme }) {
+  const ref = useRef(null);
+
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return val - bounds.x - bounds.width / 2;
+  });
+
+  const widthSync = useTransform(distance, [-150, 0, 150], [48, 80, 48]);
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ width }}
+      className="dock-item-wrapper"
+    >
+      <AnimatedThemeToggler
+        theme={theme}
+        onThemeChange={setTheme}
+        className="dock-item"
+        style={{ width: '100%', height: '100%', outline: 'none' }}
+        aria-label="Toggle theme"
+      />
+      <span className="dock-tooltip">Theme</span>
+    </motion.div>
+  );
+}
+
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const mouseX = useMotionValue(Infinity);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-
       const sectionEls = sections.map(s => document.getElementById(s.id)).filter(Boolean);
       const current = sectionEls.find(el => {
         const rect = el.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom > 100;
+        return rect.top <= window.innerHeight / 2 && rect.bottom > window.innerHeight / 2;
       });
       if (current) setActiveSection(current.id);
     };
@@ -42,149 +100,50 @@ export default function Nav() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  useEffect(() => {
-    const handleThemeChanged = (e) => {
-      setTheme(e.detail);
-    };
-    window.addEventListener('theme-changed', handleThemeChanged);
-    return () => window.removeEventListener('theme-changed', handleThemeChanged);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
-
   const scrollTo = (id) => {
-    setMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const toggleCommandPalette = () => {
+    window.dispatchEvent(new CustomEvent('toggle-command-palette'));
   };
 
   return (
     <>
-      <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-        <a href="#hero" className="nav-logo" onClick={e => { e.preventDefault(); scrollTo('hero'); }}>
-          <span className="nav-logo-mark">AB</span>
-        </a>
+      <a href="#hero" className="top-left-logo" onClick={e => { e.preventDefault(); scrollTo('hero'); }}>
+        AB
+      </a>
 
-        <ul className="nav-links">
-          {sections.slice(1, -1).map(s => (
-            <li key={s.id}>
-              <a
-                href={`#${s.id}`}
-                className={`nav-link ${activeSection === s.id ? 'active' : ''}`}
-                onClick={e => { e.preventDefault(); scrollTo(s.id); }}
-              >
-                {s.label}
-              </a>
-            </li>
-          ))}
-          <li>
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('toggle-command-palette'))}
-              className="command-palette-toggle"
-              aria-label="Open Command Palette"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--muted)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 10px',
-                borderRadius: '6px',
-                fontSize: '0.65rem',
-                fontFamily: 'var(--font-mono)',
-                border: '1px solid var(--line)',
-                transition: 'all 0.2s ease',
-                height: '32px'
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <span className="nav-shortcut-badge" style={{ opacity: 0.65 }}>Ctrl K</span>
-            </button>
-          </li>
-          <li>
-            <AnimatedThemeToggler
-              theme={theme}
-              onThemeChange={setTheme}
-              className="theme-toggle"
-              aria-label="Toggle theme"
-            />
-          </li>
-          <li>
-            <a
-              href="#contact"
-              className="nav-link nav-cta"
-              onClick={e => { e.preventDefault(); scrollTo('contact'); }}
-            >
-              Let's talk
-            </a>
-          </li>
-        </ul>
+      <motion.div 
+        className="dock-container"
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+      >
+        {sections.map((s) => (
+          <DockItem
+            key={s.id}
+            mouseX={mouseX}
+            section={s}
+            isActive={activeSection === s.id}
+            onClick={() => scrollTo(s.id)}
+          />
+        ))}
 
-        <button
-          className={`nav-toggle ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-        >
-          <span /><span /><span />
-        </button>
-      </nav>
+        <div className="dock-divider" />
 
-      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
-        <ul className="mobile-menu-links">
-          {sections.map(s => (
-            <li key={s.id}>
-              <a
-                href={`#${s.id}`}
-                className="mobile-menu-link"
-                onClick={e => { e.preventDefault(); scrollTo(s.id); }}
-              >
-                {s.label}
-              </a>
-            </li>
-          ))}
-          <li style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-            <button
-              onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent('toggle-command-palette')); }}
-              className="command-palette-toggle"
-              aria-label="Open Command Palette"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid var(--line)',
-                color: 'var(--ink)',
-                cursor: 'pointer',
-                padding: '12px 18px',
-                borderRadius: '8px',
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-mono)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <span>Command Center</span>
-            </button>
-            <AnimatedThemeToggler
-              theme={theme}
-              onThemeChange={setTheme}
-              className="theme-toggle"
-              aria-label="Toggle theme"
-              style={{ padding: '12px', width: '44px', height: '44px' }}
-            />
-          </li>
-        </ul>
-      </div>
+        <DockItem
+          mouseX={mouseX}
+          section={{ label: 'Command', icon: Command }}
+          isActive={false}
+          onClick={toggleCommandPalette}
+        />
+
+        <DockThemeItem
+          mouseX={mouseX}
+          theme={theme}
+          setTheme={setTheme}
+        />
+      </motion.div>
     </>
   );
 }
