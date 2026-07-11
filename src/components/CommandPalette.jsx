@@ -59,10 +59,15 @@ export default function CommandPalette() {
       setActiveIndex(0);
       setTimeout(() => inputRef.current?.focus(), 50);
       document.body.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => { 
+      document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
   }, [isOpen]);
 
   /* ── Scroll active item into view ── */
@@ -151,7 +156,7 @@ export default function CommandPalette() {
         </div>
 
         {/* ── Results ── */}
-        <div className="cp-results" ref={resultsRef}>
+        <div className="cp-results" ref={resultsRef} data-lenis-prevent="true">
           {filtered.length > 0 ? (
             Object.entries(grouped).map(([group, cmds]) => (
               <div key={group} className="cp-group">

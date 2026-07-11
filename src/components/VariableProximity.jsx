@@ -2,16 +2,33 @@ import { forwardRef, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import './VariableProximity.css';
 
-function useAnimationFrame(callback) {
+function useAnimationFrame(callback, containerRef) {
   useEffect(() => {
     let frameId;
+    let observer;
+    let isIntersecting = true; // default to true if no observer
+
+    if (containerRef?.current) {
+      observer = new IntersectionObserver(([entry]) => {
+        isIntersecting = entry.isIntersecting;
+      }, { threshold: 0 });
+      observer.observe(containerRef.current);
+    }
+
     const loop = () => {
-      callback();
+      if (isIntersecting) {
+        callback();
+      }
       frameId = requestAnimationFrame(loop);
     };
+    
     frameId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(frameId);
-  }, [callback]);
+    
+    return () => {
+      cancelAnimationFrame(frameId);
+      if (observer) observer.disconnect();
+    };
+  }, [callback, containerRef]);
 }
 
 function useMousePositionRef(containerRef) {
@@ -139,7 +156,7 @@ const VariableProximity = forwardRef((props, ref) => {
       interpolatedSettingsRef.current[index] = newSettings;
       letterRef.style.fontVariationSettings = newSettings;
     });
-  });
+  }, containerRef);
 
   const words = label.split(' ');
   let letterIndex = 0;

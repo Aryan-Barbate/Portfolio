@@ -115,7 +115,20 @@ const TextPressure = ({
 
   useEffect(() => {
     let rafId;
+    let observer;
+    let isIntersecting = true;
+
+    if (containerRef.current) {
+      observer = new IntersectionObserver(([entry]) => {
+        isIntersecting = entry.isIntersecting;
+      }, { threshold: 0 });
+      observer.observe(containerRef.current);
+    }
+
     const animate = () => {
+      rafId = requestAnimationFrame(animate);
+      if (!isIntersecting) return;
+
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
 
@@ -149,12 +162,13 @@ const TextPressure = ({
           }
         });
       }
-
-      rafId = requestAnimationFrame(animate);
     };
 
     animate();
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (observer) observer.disconnect();
+    };
   }, [width, weight, italic, alpha]);
 
   const styleElement = useMemo(() => {

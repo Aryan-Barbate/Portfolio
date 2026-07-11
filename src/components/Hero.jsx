@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import TextPressure from './TextPressure';
 import VariableProximity from './VariableProximity';
-import PixelBlast from './PixelBlast';
 
 export default function Hero() {
   const textRef = useRef(null);
@@ -12,28 +11,6 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'auto' }}>
-        <PixelBlast
-          variant="circle"
-          pixelSize={6}
-          color="#e85d04"
-          patternScale={3}
-          patternDensity={1.2}
-          pixelSizeJitter={0.5}
-          enableRipples={true}
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
-          liquid={true}
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={0.6}
-          edgeFade={0.25}
-          transparent={true}
-        />
-      </div>
-      
       <div className="hero-orb" aria-hidden="true" style={{ zIndex: 1 }} />
 
       <div className="container hero-inner" style={{ position: 'relative', zIndex: 2, pointerEvents: 'none' }}>

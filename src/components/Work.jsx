@@ -5,7 +5,6 @@ import ProjectModal from './ProjectModal';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { AnimatePresence } from 'framer-motion';
 import VariableProximity from './VariableProximity';
-import ScrollStack, { ScrollStackItem } from './ScrollStack';
 
 function ProjectImage({ src, alt, color, accent }) {
   const [loading, setLoading] = useState(true);
@@ -102,78 +101,82 @@ export default function Work() {
           </div>
         </div>
 
-        {/* Adjusting the container to handle the vertical scrolling natively inside the layout */}
-        <div style={{ height: '80vh', width: '100%', position: 'relative' }}>
-          <ScrollStack 
-            itemDistance={40} 
-            itemScale={0.04} 
-            itemStackDistance={30} 
-            blurAmount={4}
-            useWindowScroll={false}
-          >
-            {projects.map((project, i) => (
-              <ScrollStackItem key={project.id} itemClassName="custom-project-stack">
-                <button
-                  className="project-card"
-                  onClick={() => setSelected(project)}
-                  aria-label={`Open ${project.name} details`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                    background: 'none',
-                    padding: 0,
-                    margin: 0,
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  <div className="project-card-visual" style={{ width: '100%', aspectRatio: '16/9', position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
-                    <div className="project-browser-bar">
-                      <span className="browser-dot red" />
-                      <span className="browser-dot yellow" />
-                      <span className="browser-dot green" />
-                      <span className="browser-url-bar">{project.id}.local</span>
-                    </div>
-                    
-                    <div className="project-image-wrap" style={{ height: '100%', width: '100%' }}>
-                      <ProjectImage 
-                        src={project.cover} 
-                        alt={project.name} 
-                        color={project.color} 
-                        accent={project.accent} 
-                      />
-                    </div>
-                    <div
-                      className="project-card-bg"
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: `linear-gradient(145deg, ${project.color}88 0%, ${project.accent}44 100%)`,
-                        mixBlendMode: 'overlay'
-                      }}
-                    />
-                    <span className="project-card-index">0{i + 1}</span>
-                    <span className="project-card-tag">{project.tag}</span>
-                    <span className="project-card-arrow" aria-hidden="true">
-                      <ArrowUpRight size={20} />
-                    </span>
-                  </div>
+        {/* Native CSS Sticky Stacking Layout */}
+        <div style={{ width: '100%', position: 'relative', display: 'flex', flexDirection: 'column', paddingBottom: '10vh' }}>
+          {projects.map((project, i) => (
+            <div 
+              key={project.id}
+              style={{
+                position: 'sticky',
+                top: `calc(12vh + ${i * 40}px)`,
+                marginBottom: i === projects.length - 1 ? '0' : '10vh',
+                zIndex: i,
+                width: '100%',
+                maxWidth: '900px',
+                margin: '0 auto',
+                background: 'var(--bg-card, #0a0a0a)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                overflow: 'hidden',
+                willChange: 'transform',
+                transform: 'translateZ(0)'
+              }}
+            >
+              <button
+                className="project-card"
+                onClick={() => setSelected(project)}
+                aria-label={`Open ${project.name} details`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  background: 'none',
+                  padding: '20px',
+                  margin: 0,
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <div className="project-card-visual" style={{ width: '100%', aspectRatio: '16/9', position: 'relative', overflow: 'hidden' }}>
                   
-                  <div style={{ marginTop: '1.5rem' }}>
-                    <h3 className="project-card-name" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{project.name}</h3>
-                    <div className="project-card-stack" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      {project.stack.slice(0, 3).map(tech => (
-                        <span key={tech} style={{ padding: '0.25rem 0.75rem', background: 'var(--bg-card)', borderRadius: '20px', fontSize: '0.875rem' }}>{tech}</span>
-                      ))}
-                    </div>
+                  <div className="project-image-wrap" style={{ height: '100%', width: '100%' }}>
+                    <ProjectImage 
+                      src={project.cover} 
+                      alt={project.name} 
+                      color={project.color} 
+                      accent={project.accent} 
+                    />
                   </div>
-                </button>
-              </ScrollStackItem>
-            ))}
-          </ScrollStack>
+                  {/* Minimal subtle gradient for text legibility, no heavy overlay */}
+                  <div
+                    className="project-card-bg"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  <span className="project-card-index">0{i + 1}</span>
+                  <span className="project-card-tag">{project.tag}</span>
+                  <span className="project-card-arrow" aria-hidden="true">
+                    <ArrowUpRight size={20} />
+                  </span>
+                </div>
+                
+                <div style={{ marginTop: '1.2rem' }}>
+                  <h3 className="project-card-name" style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--text-primary, #fff)', fontWeight: '500', letterSpacing: '-0.02em' }}>{project.name}</h3>
+                  <div className="project-card-stack" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {project.stack.slice(0, 3).map(tech => (
+                      <span key={tech} style={{ padding: '0.2rem 0.6rem', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-secondary, #999)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 

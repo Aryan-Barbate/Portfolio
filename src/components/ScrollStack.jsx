@@ -45,7 +45,7 @@ const ScrollStack = ({
   const getScrollData = useCallback(() => {
     if (useWindowScroll) {
       return {
-        scrollTop: window.scrollY,
+        scrollTop: window.lenis ? window.lenis.scroll : window.scrollY,
         containerHeight: window.innerHeight,
         scrollContainer: document.documentElement
       };
@@ -63,7 +63,7 @@ const ScrollStack = ({
     element => {
       if (useWindowScroll) {
         const rect = element.getBoundingClientRect();
-        return rect.top + window.scrollY;
+        return rect.top + (window.lenis ? window.lenis.scroll : window.scrollY);
       } else {
         return element.offsetTop;
       }
@@ -185,28 +185,14 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075
-      });
-
-      lenis.on('scroll', handleScroll);
-
-      const raf = time => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      // Use requestAnimationFrame to perfectly sync with the global smooth scroll physics
+      // This prevents the visual jitter caused by asynchronous native scroll events.
+      const loop = () => {
+        handleScroll();
+        animationFrameRef.current = requestAnimationFrame(loop);
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
+      animationFrameRef.current = requestAnimationFrame(loop);
+      return null;
     } else {
       const scroller = scrollerRef.current;
       if (!scroller) return;
