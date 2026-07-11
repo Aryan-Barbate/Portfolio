@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import TextPressure from './TextPressure';
 import VariableProximity from './VariableProximity';
+import PixelBlast from './PixelBlast';
 
 export default function Hero() {
   const textRef = useRef(null);
@@ -10,12 +11,33 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="hero">
-      <div className="hero-grid-bg" aria-hidden="true" />
-      <div className="hero-orb" aria-hidden="true" />
+    <section id="hero" className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'auto' }}>
+        <PixelBlast
+          variant="circle"
+          pixelSize={6}
+          color="#e85d04"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples={true}
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={true}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.25}
+          transparent={true}
+        />
+      </div>
+      
+      <div className="hero-orb" aria-hidden="true" style={{ zIndex: 1 }} />
 
-      <div className="container hero-inner">
-        <div className="hero-top-row">
+      <div className="container hero-inner" style={{ position: 'relative', zIndex: 2, pointerEvents: 'none' }}>
+        <div className="hero-top-row" style={{ pointerEvents: 'auto' }}>
           <div className="hero-status">
             <span className="hero-status-dot" />
             Available for work
@@ -27,7 +49,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-title-wrap">
+        <div className="hero-title-wrap" style={{ pointerEvents: 'auto' }}>
           <div style={{ position: 'relative', height: 'clamp(150px, 20vw, 300px)' }}>
             <TextPressure
               text="ARYAN BARBATE"
@@ -47,7 +69,7 @@ export default function Hero() {
         <div
           ref={textRef}
           className="body-text hero-sub"
-          style={{ position: 'relative' }}
+          style={{ position: 'relative', pointerEvents: 'auto' }}
         >
           <VariableProximity
             label={'I build interfaces with intention — live API tools, creative experiments, and polished front-end craft. Small in quantity, high in craft.'}
@@ -64,6 +86,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}
+          style={{ pointerEvents: 'auto' }}
         >
           <button className="btn btn-primary" onClick={() => scrollTo('work')}>
             View selected work
