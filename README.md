@@ -69,15 +69,17 @@ The portfolio leverages a highly tailored editorial style resembling a design jo
 │   ├── components/
 │   │   ├── Nav.jsx            # Navigation with theme sync listeners
 │   │   ├── CommandPalette.jsx # Ctrl+K Keyboard Search console
-│   │   ├── Hero.jsx           # Hero Section + Resume download trigger
+│   │   ├── Hero.jsx           # Hero Section with fluid CSS typography on mobile
 │   │   ├── Work.jsx           # Drag-and-scroll Project Card Gallery
 │   │   ├── ProjectModal.jsx   # Case Study Modal Reader
 │   │   ├── Journey.jsx        # Timeline experience log
-│   │   ├── Capabilities.jsx   # Custom Skills Grouping
+│   │   ├── Capabilities.jsx   # Custom Skills Grouping with 3D Carousel
 │   │   ├── GithubConsole.jsx  # Tabbed Git CLI Console
 │   │   ├── About.jsx          # Profile Biography
+│   │   ├── ProfileCard.jsx    # Interactive 3D glassmorphic card (React Bits)
+│   │   ├── ChessGame.jsx      # Playable vs Stockfish AI engine on about card
 │   │   ├── Writing.jsx        # Developer Journal list + inline reader
-│   │   ├── Contact.jsx        # Formspree Form with mailto fallback
+│   │   ├── Contact.jsx        # Formspree Form with social flip button
 │   │   └── Footer.jsx         # Site footer & GitHub repo link
 │   ├── hooks/
 │   │   └── useScrollReveal.js # Intersection Observer reveal transitions
