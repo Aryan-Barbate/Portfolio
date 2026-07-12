@@ -16,10 +16,22 @@ const sections = [
 
 function DockItem({ mouseX, section, onClick, isActive }) {
   const ref = useRef(null);
+  const boundsRef = useRef({ x: 0, width: 0 });
+
+  useEffect(() => {
+    const updateBounds = () => {
+      if (ref.current) {
+        boundsRef.current = ref.current.getBoundingClientRect();
+      }
+    };
+    updateBounds();
+    window.addEventListener('resize', updateBounds);
+    return () => window.removeEventListener('resize', updateBounds);
+  }, []);
 
   // Measure distance from mouse to center of this icon
   const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    const bounds = boundsRef.current;
     return val - bounds.x - bounds.width / 2;
   });
 
@@ -45,9 +57,21 @@ function DockItem({ mouseX, section, onClick, isActive }) {
 
 function DockThemeItem({ mouseX, theme, setTheme }) {
   const ref = useRef(null);
+  const boundsRef = useRef({ x: 0, width: 0 });
+
+  useEffect(() => {
+    const updateBounds = () => {
+      if (ref.current) {
+        boundsRef.current = ref.current.getBoundingClientRect();
+      }
+    };
+    updateBounds();
+    window.addEventListener('resize', updateBounds);
+    return () => window.removeEventListener('resize', updateBounds);
+  }, []);
 
   const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    const bounds = boundsRef.current;
     return val - bounds.x - bounds.width / 2;
   });
 

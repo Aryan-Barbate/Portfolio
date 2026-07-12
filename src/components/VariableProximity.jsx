@@ -210,7 +210,7 @@ const VariableProximity = forwardRef((props, ref) => {
                 }}
                 style={{
                   display: 'inline-block',
-                  fontVariationSettings: interpolatedSettingsRef.current[currentLetterIndex]
+                  fontVariationSettings: fromFontVariationSettings
                 }}
                 aria-hidden="true"
               >

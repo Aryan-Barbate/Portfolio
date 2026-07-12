@@ -37,6 +37,8 @@ export default function CommandPalette() {
     const handleKeyDown = (e) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        setSearch('');
+        setActiveIndex(0);
         setIsOpen((o) => !o);
       }
       if (e.key === 'Escape') setIsOpen(false);
@@ -47,7 +49,11 @@ export default function CommandPalette() {
 
   /* ── Custom event listener ── */
   useEffect(() => {
-    const h = () => setIsOpen((o) => !o);
+    const h = () => {
+      setSearch('');
+      setActiveIndex(0);
+      setIsOpen((o) => !o);
+    };
     window.addEventListener('toggle-command-palette', h);
     return () => window.removeEventListener('toggle-command-palette', h);
   }, []);
@@ -55,8 +61,6 @@ export default function CommandPalette() {
   /* ── Focus & body lock ── */
   useEffect(() => {
     if (isOpen) {
-      setSearch('');
-      setActiveIndex(0);
       setTimeout(() => inputRef.current?.focus(), 50);
       document.body.style.overflow = 'hidden';
       if (window.lenis) window.lenis.stop();

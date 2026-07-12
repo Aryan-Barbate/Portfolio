@@ -216,6 +216,8 @@ export default function Galaxy({
 
     let program;
 
+    let rect = ctn.getBoundingClientRect();
+
     function resize() {
       const scale = 1;
       renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
@@ -226,6 +228,7 @@ export default function Galaxy({
           gl.canvas.width / gl.canvas.height
         );
       }
+      rect = ctn.getBoundingClientRect();
     }
     window.addEventListener('resize', resize, false);
     resize();
@@ -286,7 +289,6 @@ export default function Galaxy({
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
-      const rect = ctn.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
       targetMousePos.current = { x, y };

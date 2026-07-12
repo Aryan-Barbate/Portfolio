@@ -26,7 +26,7 @@ export default function SkillCarousel({ groupedSkills }) {
               key={group.name} 
               className="carousel-card"
               style={{
-                transform: `rotateY(${rotateY}deg) translateZ(${radius}px)`
+                transform: `rotateY(${rotateY}deg) translateZ(var(--carousel-radius, ${radius}px))`
               }}
             >
               <h3>{group.name}</h3>

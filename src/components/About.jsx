@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { MapPin } from 'lucide-react';
-import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
 import VariableProximity from './VariableProximity';
 import ProfileCard from './ProfileCard';

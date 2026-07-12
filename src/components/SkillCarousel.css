@@ -9,6 +9,7 @@
   /* Add perspective so the 3D cylinder looks deep */
   perspective: 1200px;
   padding: 2rem 0;
+  --carousel-radius: 380px;
 }
 
 .carousel-cylinder {
@@ -104,4 +105,49 @@
 }
 .carousel-tag.learning {
   border-color: rgba(255, 200, 0, 0.3);
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .carousel-container {
+    --carousel-radius: 320px;
+    height: 550px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    --carousel-radius: 260px;
+    height: 500px;
+  }
+  .carousel-cylinder {
+    width: 200px;
+    height: 240px;
+  }
+  .carousel-card {
+    padding: 1rem;
+  }
+  .carousel-card h3 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    --carousel-radius: 170px;
+    height: 420px;
+  }
+  .carousel-cylinder {
+    width: 130px;
+    height: 240px;
+  }
+  .carousel-card {
+    padding: 0.75rem;
+    overflow: hidden;
+    gap: 0.5rem;
+  }
+  .carousel-tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
 }

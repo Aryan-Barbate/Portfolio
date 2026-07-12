@@ -1,11 +1,53 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { GitPullRequest, GitCommit, Star, Folder, Terminal, Loader2, Sparkles } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { projects } from '../data/projects';
 import VariableProximity from './VariableProximity';
 import NumberTicker from './NumberTicker';
+
+const fallbackEvents = [
+  {
+    id: 'fb-1',
+    repo: 'Linea-Flora',
+    type: 'Push',
+    detail: 'pushed: "rebrand to Linea Flora & custom favicon setup"',
+    date: 'Jun 20, 11:32 AM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-2',
+    repo: 'Linea-Flora',
+    type: 'Push',
+    detail: 'pushed: "resolved selection bounding box canvas alignment bug"',
+    date: 'Jun 19, 04:15 PM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-3',
+    repo: 'Portfolio',
+    type: 'Push',
+    detail: 'pushed: "optimized project screenshots loading & dynamic formspree url check"',
+    date: 'Jun 18, 10:44 AM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-4',
+    repo: 'AniScope',
+    type: 'Push',
+    detail: 'pushed: "added debounced search state hook to rate-limit API queries"',
+    date: 'Jun 15, 02:30 PM',
+    icon: <GitCommit size={14} />,
+  },
+];
+
+const fallbackStats = {
+  repos: 4,
+  followers: 8,
+  following: 12,
+  bio: 'Frontend developer building intentional interfaces and creative web experiments.',
+  gists: 1,
+};
 
 // Matrix Rain Canvas component
 function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
@@ -146,9 +188,9 @@ export default function GithubConsole() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('activity'); // activity, shell
-  const [matrixActive, setMatrixActive] = useState(false);
-  const [matrixColor, setMatrixColor] = useState('rgba(232, 93, 4, 0.8)');
-  const pageLoadTimeRef = useRef(Date.now());
+  const matrixActive = false;
+  const matrixColor = 'rgba(232, 93, 4, 0.8)';
+  const pageLoadTimeRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   // Interactive Shell States
@@ -177,50 +219,10 @@ export default function GithubConsole() {
     }
   };
 
-  const fallbackEvents = [
-    {
-      id: 'fb-1',
-      repo: 'Linea-Flora',
-      type: 'Push',
-      detail: 'pushed: "rebrand to Linea Flora & custom favicon setup"',
-      date: 'Jun 20, 11:32 AM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-2',
-      repo: 'Linea-Flora',
-      type: 'Push',
-      detail: 'pushed: "resolved selection bounding box canvas alignment bug"',
-      date: 'Jun 19, 04:15 PM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-3',
-      repo: 'Portfolio',
-      type: 'Push',
-      detail: 'pushed: "optimized project screenshots loading & dynamic formspree url check"',
-      date: 'Jun 18, 10:44 AM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-4',
-      repo: 'AniScope',
-      type: 'Push',
-      detail: 'pushed: "added debounced search state hook to rate-limit API queries"',
-      date: 'Jun 15, 02:30 PM',
-      icon: <GitCommit size={14} />,
-    },
-  ];
 
-  const fallbackStats = {
-    repos: 4,
-    followers: 8,
-    following: 12,
-    bio: 'Frontend developer building intentional interfaces and creative web experiments.',
-    gists: 1,
-  };
 
   useEffect(() => {
+    pageLoadTimeRef.current = Date.now();
     const fetchData = async () => {
       try {
         const eventsRes = await fetch('https://api.github.com/users/Aryan-Barbate/events');
@@ -329,7 +331,7 @@ export default function GithubConsole() {
     const parts = trimmed.split(/\s+/);
     const cmd = parts[0].toLowerCase();
 
-    let output = [];
+    let output;
 
     switch (cmd) {
       case 'help':

@@ -39,7 +39,7 @@ export default function Hero() {
         </div>
 
         <div className="hero-title-wrap" style={{ pointerEvents: 'auto' }}>
-          <div style={{ position: 'relative', height: 'clamp(150px, 20vw, 300px)' }}>
+          <div className="hero-title-desktop" style={{ position: 'relative', height: 'clamp(150px, 20vw, 300px)' }}>
             <TextPressure
               text="ARYAN BARBATE"
               flex={true}
@@ -53,6 +53,19 @@ export default function Hero() {
               minFontSize={36}
             />
           </div>
+          
+          <h1 className="hero-title-mobile" style={{ 
+            fontFamily: 'var(--font-display)', 
+            fontWeight: 900,
+            fontSize: 'clamp(2rem, 11vw, 8rem)',
+            lineHeight: 0.9,
+            letterSpacing: '-0.05em',
+            textTransform: 'uppercase',
+            margin: 0,
+            wordBreak: 'break-word'
+          }}>
+            ARYAN <br/> BARBATE
+          </h1>
         </div>
 
         <div

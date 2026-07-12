@@ -513,6 +513,10 @@ section {
   margin-bottom: clamp(2rem, 4vh, 3rem);
 }
 
+.hero-title-mobile {
+  display: none;
+}
+
 .hero-title-line {
   display: block;
   overflow: hidden;
@@ -1631,6 +1635,17 @@ section {
   color: inherit;
 }
 
+@media (max-width: 480px) {
+  .social-flip-node {
+    height: 40px;
+    width: 40px;
+  }
+  .social-flip-group {
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+}
+
 .social-flip-inner {
   position: relative;
   height: 100%;
@@ -1803,6 +1818,14 @@ section {
 
   .hero-title-wrap {
     margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .hero-title-desktop {
+    display: none;
+  }
+  
+  .hero-title-mobile {
+    display: block;
   }
 
   .hero-sub {

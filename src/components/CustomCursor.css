@@ -9,6 +9,7 @@
   /* Adjust offset to put the point of the cursor at the actual mouse tip */
   margin-left: -3px;
   margin-top: -3px;
+  mix-blend-mode: difference;
 }
 
 /* The core SVG styling */
@@ -39,13 +40,7 @@ svg.modern-cursor {
   transition: stroke 0.3s ease;
 }
 
-/* Theme: Dark */
-html.dark .cursor-fill {
-  fill: #1A1A1A;
-}
-html.dark .cursor-stroke {
-  stroke: #FFFFFF;
-}
+/* Removed dark theme specific cursor colors since mix-blend-mode handles inversion automatically */
 
 /* Keyframes for the "live" modern feel */
 @keyframes float-and-pulse {

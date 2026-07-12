@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import './ProfileCard.css';
 
 const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
@@ -38,6 +38,7 @@ const ProfileCardComponent = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
+  const rectRef = useRef(null);
 
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
@@ -154,16 +155,15 @@ const ProfileCardComponent = ({
     };
   }, [enableTilt]);
 
-  const getOffsets = (evt, el) => {
-    const rect = el.getBoundingClientRect();
+  const getOffsets = (evt) => {
+    const rect = rectRef.current || { left: 0, top: 0 };
     return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
   };
 
   const handlePointerMove = useCallback(
     event => {
-      const shell = shellRef.current;
-      if (!shell || !tiltEngine) return;
-      const { x, y } = getOffsets(event, shell);
+      if (!tiltEngine) return;
+      const { x, y } = getOffsets(event);
       tiltEngine.setTarget(x, y);
     },
     [tiltEngine]
@@ -181,7 +181,9 @@ const ProfileCardComponent = ({
         shell.classList.remove('entering');
       }, ANIMATION_CONFIG.ENTER_TRANSITION_MS);
 
-      const { x, y } = getOffsets(event, shell);
+      rectRef.current = shell.getBoundingClientRect();
+      tiltEngine.start();
+      const { x, y } = getOffsets(event);
       tiltEngine.setTarget(x, y);
     },
     [tiltEngine]
@@ -368,5 +370,5 @@ const ProfileCardComponent = ({
   );
 };
 
-const ProfileCard = React.memo(ProfileCardComponent);
+const ProfileCard = memo(ProfileCardComponent);
 export default ProfileCard;

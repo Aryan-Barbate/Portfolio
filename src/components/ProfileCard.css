@@ -76,6 +76,20 @@
   will-change: transform;
 }
 
+@media (max-width: 768px) {
+  .pc-card-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .pc-card {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+  }
+}
+
 .pc-card:hover,
 .pc-card.active {
   transition: none;

@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
+import { AnimatePresence } from 'framer-motion';
+import Loader from './components/Loader';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './index.css';
@@ -21,6 +23,40 @@ import CustomCursor from './components/CustomCursor';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    // Block right-click context menu
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
+
+    // Block common developer tool shortcuts
+    const handleKeyDown = (e) => {
+      // F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+      // Ctrl+U (View Source)
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+      }
+      // Ctrl+S (Save page)
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -51,6 +87,9 @@ export default function App() {
 
   return (
     <>
+      <AnimatePresence>
+        {!loaded && <Loader onLoaded={() => setLoaded(true)} />}
+      </AnimatePresence>
       <CustomCursor />
       <Grain />
       <CommandPalette />
