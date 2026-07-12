@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Github, Linkedin } from './BrandIcons';
+import { Github, Linkedin, Twitter, Instagram } from './BrandIcons';
+import { Mail } from 'lucide-react';
 import useScrollReveal from '../hooks/useScrollReveal';
+import VariableProximity from './VariableProximity';
+import SocialFlipButton from './SocialFlipButton';
 
 export default function Contact() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
@@ -12,6 +16,19 @@ export default function Contact() {
   // The user can configure their Formspree ID here.
   // If it remains the placeholder, the form will fall back to mailto automatically.
   const FORMSPREE_ID = 'https://formspree.io/f/mkoadyrz'; 
+
+  // Social links shown in the flip button. Each tile is a single letter so
+  // the row reads C O N T A C T. The first C and last T are plain letter
+  // tiles; the middle five flip to their social icons.
+  const socialItems = [
+    { letter: 'C', plain: true },
+    { letter: 'O', icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Aryan-Barbate' },
+    { letter: 'N', icon: <Twitter size={20} />, label: 'Twitter / X', href: 'https://x.com/AryanBarbate' },
+    { letter: 'T', icon: <Instagram size={20} />, label: 'Instagram', href: 'https://www.instagram.com/barbate_aryan' },
+    { letter: 'A', icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/aryan-barbate-b653b9393' },
+    { letter: 'C', icon: <Mail size={20} />, label: 'Email', href: 'mailto:aryanbarbate3@gmail.com' },
+    { letter: 'T', plain: true },
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,9 +91,15 @@ export default function Contact() {
         <div className="contact-layout">
           <div className="reveal">
             <p className="eyebrow">Contact</p>
-            <h2 className="contact-headline" style={{ marginTop: '1.5rem' }}>
-              Let's build<br />
-              <em>something real.</em>
+            <h2 ref={titleRef} className="contact-headline" style={{ marginTop: '1.5rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Let\'s build something real.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
             <p className="body-text" style={{ color: 'rgba(244,240,232,0.55)', marginTop: '1.5rem', maxWidth: 400 }}>
               Open to conversations, collaboration, and building. If something resonated here, reach out.
@@ -86,31 +109,9 @@ export default function Contact() {
               aryanbarbate3@gmail.com →
             </a>
 
-            <div className="contact-channels">
-              <a
-                href="https://github.com/Aryan-Barbate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-channel"
-              >
-                <div>
-                  <p className="contact-channel-label">GitHub</p>
-                  <p className="contact-channel-value">Aryan-Barbate</p>
-                </div>
-                <Github size={18} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/aryan-barbate-b653b9393"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-channel"
-              >
-                <div>
-                  <p className="contact-channel-label">LinkedIn</p>
-                  <p className="contact-channel-value">Aryan Barbate</p>
-                </div>
-                <Linkedin size={18} />
-              </a>
+            <div className="social-flip-wrap">
+              <p className="social-flip-label">Contact</p>
+              <SocialFlipButton items={socialItems} />
             </div>
           </div>
 

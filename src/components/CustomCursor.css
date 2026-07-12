@@ -1,0 +1,69 @@
+.custom-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 99999;
+  /* Adjust offset to put the point of the cursor at the actual mouse tip */
+  margin-left: -3px;
+  margin-top: -3px;
+  mix-blend-mode: difference;
+}
+
+/* The core SVG styling */
+svg.modern-cursor {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  /* Apply the live animation */
+  animation: float-and-pulse 3s ease-in-out infinite;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hover state to make it feel reactive (applied when hovering over clickable elements) */
+.custom-cursor-wrapper.hovering svg.modern-cursor {
+  animation-play-state: paused;
+  transform: scale(1.1) rotate(-5deg);
+}
+
+/* Theme: Light (default) */
+.cursor-fill {
+  fill: #FFFFFF;
+  transition: fill 0.3s ease;
+}
+.cursor-stroke {
+  stroke: #1A1A1A;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+}
+
+/* Removed dark theme specific cursor colors since mix-blend-mode handles inversion automatically */
+
+/* Keyframes for the "live" modern feel */
+@keyframes float-and-pulse {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+/* Hide default cursor on desktop */
+@media (pointer: fine) {
+  body, 
+  body *,
+  a, 
+  button, 
+  input, 
+  textarea, 
+  select {
+    cursor: none !important;
+  }
+}

@@ -1,8 +1,53 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { GitPullRequest, GitCommit, Star, Folder, Terminal, Loader2, Sparkles } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { projects } from '../data/projects';
+import VariableProximity from './VariableProximity';
+import NumberTicker from './NumberTicker';
+
+const fallbackEvents = [
+  {
+    id: 'fb-1',
+    repo: 'Linea-Flora',
+    type: 'Push',
+    detail: 'pushed: "rebrand to Linea Flora & custom favicon setup"',
+    date: 'Jun 20, 11:32 AM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-2',
+    repo: 'Linea-Flora',
+    type: 'Push',
+    detail: 'pushed: "resolved selection bounding box canvas alignment bug"',
+    date: 'Jun 19, 04:15 PM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-3',
+    repo: 'Portfolio',
+    type: 'Push',
+    detail: 'pushed: "optimized project screenshots loading & dynamic formspree url check"',
+    date: 'Jun 18, 10:44 AM',
+    icon: <GitCommit size={14} />,
+  },
+  {
+    id: 'fb-4',
+    repo: 'AniScope',
+    type: 'Push',
+    detail: 'pushed: "added debounced search state hook to rate-limit API queries"',
+    date: 'Jun 15, 02:30 PM',
+    icon: <GitCommit size={14} />,
+  },
+];
+
+const fallbackStats = {
+  repos: 4,
+  followers: 8,
+  following: 12,
+  bio: 'Frontend developer building intentional interfaces and creative web experiments.',
+  gists: 1,
+};
 
 // Matrix Rain Canvas component
 function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
@@ -76,20 +121,76 @@ function MatrixRain({ active, color = 'rgba(232, 93, 4, 0.8)' }) {
         zIndex: 5,
         borderRadius: '0 0 var(--radius-md) var(--radius-md)',
         opacity: 0.95,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        transform: 'translateZ(-20px)'
       }}
     />
   );
 }
 
+// 3D Holographic Parallax Wrapper
+function HoloPanel({ children, className, style, delay = 0 }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const xPct = (mouseX / width) - 0.5;
+    const yPct = (mouseY / height) - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, rotateX: 20, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+      style={{
+        ...style,
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function GithubConsole() {
+  const titleRef = useRef(null);
   const [events, setEvents] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('activity'); // activity, shell
-  const [matrixActive, setMatrixActive] = useState(false);
-  const [matrixColor, setMatrixColor] = useState('rgba(232, 93, 4, 0.8)');
-  const pageLoadTimeRef = useRef(Date.now());
+  const matrixActive = false;
+  const matrixColor = 'rgba(232, 93, 4, 0.8)';
+  const pageLoadTimeRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   // Interactive Shell States
@@ -118,50 +219,10 @@ export default function GithubConsole() {
     }
   };
 
-  const fallbackEvents = [
-    {
-      id: 'fb-1',
-      repo: 'Linea-Flora',
-      type: 'Push',
-      detail: 'pushed: "rebrand to Linea Flora & custom favicon setup"',
-      date: 'Jun 20, 11:32 AM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-2',
-      repo: 'Linea-Flora',
-      type: 'Push',
-      detail: 'pushed: "resolved selection bounding box canvas alignment bug"',
-      date: 'Jun 19, 04:15 PM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-3',
-      repo: 'Portfolio',
-      type: 'Push',
-      detail: 'pushed: "optimized project screenshots loading & dynamic formspree url check"',
-      date: 'Jun 18, 10:44 AM',
-      icon: <GitCommit size={14} />,
-    },
-    {
-      id: 'fb-4',
-      repo: 'AniScope',
-      type: 'Push',
-      detail: 'pushed: "added debounced search state hook to rate-limit API queries"',
-      date: 'Jun 15, 02:30 PM',
-      icon: <GitCommit size={14} />,
-    },
-  ];
 
-  const fallbackStats = {
-    repos: 4,
-    followers: 8,
-    following: 12,
-    bio: 'Frontend developer building intentional interfaces and creative web experiments.',
-    gists: 1,
-  };
 
   useEffect(() => {
+    pageLoadTimeRef.current = Date.now();
     const fetchData = async () => {
       try {
         const eventsRes = await fetch('https://api.github.com/users/Aryan-Barbate/events');
@@ -270,7 +331,7 @@ export default function GithubConsole() {
     const parts = trimmed.split(/\s+/);
     const cmd = parts[0].toLowerCase();
 
-    let output = [];
+    let output;
 
     switch (cmd) {
       case 'help':
@@ -434,17 +495,24 @@ export default function GithubConsole() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">Command Center</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              Live code stream.
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Live code stream.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">04</span>
         </div>
 
-        <div className="console-grid reveal reveal-delay-2">
+        <div className="console-grid" style={{ perspective: '1200px' }}>
           {/* Terminal Console Panel */}
-          <div className="terminal-panel" style={{ position: 'relative' }}>
-            <div className="terminal-header">
+          <HoloPanel className="terminal-panel" style={{ position: 'relative' }} delay={0.2}>
+            <div className="terminal-header" style={{ transform: 'translateZ(20px)' }}>
               <div className="terminal-dots">
                 <span className="dot red" />
                 <span className="dot yellow" />
@@ -490,10 +558,10 @@ export default function GithubConsole() {
                 </button>
               </div>
 
-              <Terminal size={14} className="terminal-icon" />
+              <Terminal size={14} className="terminal-icon" style={{ transform: 'translateZ(25px)' }} />
             </div>
 
-            <div className="terminal-body" style={{ minHeight: '340px', position: 'relative' }}>
+            <div className="terminal-body" style={{ minHeight: '340px', position: 'relative', transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}>
               <MatrixRain active={matrixActive} color={matrixColor} />
               
               {activeTab === 'activity' ? (
@@ -614,28 +682,28 @@ export default function GithubConsole() {
                 </div>
               )}
             </div>
-          </div>
+          </HoloPanel>
 
           {/* Quick Metrics Display */}
-          <div className="metrics-panel">
-            <div className="metrics-intro">
+          <HoloPanel className="metrics-panel" delay={0.4}>
+            <div className="metrics-intro" style={{ transform: 'translateZ(20px)' }}>
               <h3 className="metrics-heading">System Profile</h3>
               <p className="body-sm text-muted" style={{ lineHeight: 1.6 }}>
                 {activeStats.bio}
               </p>
             </div>
 
-            <div className="metrics-grid">
+            <div className="metrics-grid" style={{ transform: 'translateZ(30px)' }}>
               <div className="metric-card">
-                <div className="metric-value">{activeStats.repos}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.repos ?? 0} /></div>
                 <div className="metric-label">Repositories</div>
               </div>
               <div className="metric-card">
-                <div className="metric-value">{activeStats.followers}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.followers ?? 0} /></div>
                 <div className="metric-label">Followers</div>
               </div>
               <div className="metric-card">
-                <div className="metric-value">{activeStats.gists}</div>
+                <div className="metric-value"><NumberTicker value={activeStats?.gists ?? 0} /></div>
                 <div className="metric-label">Active Gists</div>
               </div>
               <div className="metric-card highlight">
@@ -657,7 +725,7 @@ export default function GithubConsole() {
                 Follow on GitHub
               </a>
             </div>
-          </div>
+          </HoloPanel>
         </div>
       </div>
     </section>

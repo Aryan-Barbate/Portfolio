@@ -47,7 +47,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
@@ -84,6 +83,8 @@ img, svg { display: block; max-width: 100%; }
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 180px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* Typography */
@@ -445,6 +446,8 @@ section {
   filter: blur(40px);
   pointer-events: none;
   animation: orb-drift 12s ease-in-out infinite alternate;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @keyframes orb-drift {
@@ -508,6 +511,10 @@ section {
 
 .hero-title-wrap {
   margin-bottom: clamp(2rem, 4vh, 3rem);
+}
+
+.hero-title-mobile {
+  display: none;
 }
 
 .hero-title-line {
@@ -629,12 +636,12 @@ section {
 
 /* Work — horizontal scroll */
 .work-section {
-  background: var(--ink);
-  color: var(--paper);
+  /* Removed inverted background/color to let it match the theme */
+  position: relative;
 }
 
-.work-section .eyebrow { color: rgba(244, 240, 232, 0.5); }
-.work-section .section-index { -webkit-text-stroke-color: rgba(244, 240, 232, 0.15); }
+.work-section .eyebrow { color: var(--muted); }
+/* Removed .section-index override so it uses var(--line-strong) properly */
 
 .work-scroll-outer {
   height: 200vh;
@@ -690,47 +697,11 @@ section {
   background: #121210;
 }
 
-.project-browser-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
-  background: #1c1c1a;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  gap: 6px;
-  z-index: 3;
-}
 
-.browser-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.browser-dot.red { background: #ff5f56; }
-.browser-dot.yellow { background: #ffbd2e; }
-.browser-dot.green { background: #27c93f; }
-
-.browser-url-bar {
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  color: rgba(244, 240, 232, 0.25);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 2px 24px;
-  border-radius: 4px;
-  margin-left: auto;
-  margin-right: auto;
-  letter-spacing: 0.05em;
-}
 
 .project-image-wrap {
   position: absolute;
-  inset: 28px 0 0 0;
+  inset: 0;
   overflow: hidden;
   z-index: 0;
 }
@@ -741,7 +712,7 @@ section {
 
 .project-card-bg {
   position: absolute;
-  inset: 28px 0 0 0;
+  inset: 0;
   transition: transform 0.8s var(--ease-out);
   mix-blend-mode: multiply;
   z-index: 1;
@@ -877,21 +848,45 @@ section {
 
 .modal-panel {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(640px, 100vw);
+  top: 4vh;
+  bottom: 4vh;
+  left: 4vw;
+  right: 4vw;
+  width: auto;
+  max-width: 900px;
+  margin: 0 auto;
   background: var(--paper);
   z-index: 301;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 900px) {
+  .modal-panel {
+    top: 2vh;
+    bottom: 2vh;
+    left: 2vw;
+    right: 2vw;
+    border-radius: 24px;
+  }
 }
 
 .modal-hero {
   position: relative;
-  height: 220px;
+  width: 100%;
+  height: 45vh;
   overflow: hidden;
+  flex-shrink: 0;
+  background: var(--paper-warm);
+}
+
+@media (max-width: 900px) {
+  .modal-hero {
+    height: 35vh;
+  }
 }
 
 .modal-hero-cover {
@@ -900,6 +895,7 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  padding: 0;
 }
 
 .modal-hero-overlay {
@@ -932,11 +928,12 @@ section {
 }
 
 .modal-body {
-  padding: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
   flex: 1;
+  overflow-y: auto;
 }
 
 .modal-title {
@@ -1194,8 +1191,8 @@ section {
 .capabilities-dark-section .capability-group-card.glass-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   transition: all 0.4s var(--ease-out);
 }
@@ -1423,9 +1420,13 @@ section {
   align-items: start;
 }
 
+.contact-layout > * {
+  min-width: 0;
+}
+
 .contact-headline {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.95;
@@ -1579,6 +1580,111 @@ section {
   border-color: #f4f0e8 !important;
 }
 
+/* Social flip button */
+.social-flip-wrap {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.social-flip-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 240, 232, 0.4);
+  margin-bottom: var(--space-4);
+}
+
+.social-flip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.social-flip-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(244, 240, 232, 0.12);
+  background: rgba(244, 240, 232, 0.04);
+  overflow: hidden;
+}
+
+.social-flip-border {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 93, 4, 0.7), transparent);
+  pointer-events: none;
+}
+
+.social-flip-border-top { top: -1px; }
+.social-flip-border-bottom { bottom: -1px; }
+
+.social-flip-node {
+  position: relative;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 480px) {
+  .social-flip-node {
+    height: 40px;
+    width: 40px;
+  }
+  .social-flip-group {
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+}
+
+.social-flip-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.social-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.social-flip-front {
+  background: rgba(244, 240, 232, 0.08);
+  color: rgba(244, 240, 232, 0.75);
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(244, 240, 232, 0.12);
+}
+
+.social-flip-back {
+  background: var(--accent);
+  color: #f4f0e8;
+  transform: rotateY(180deg);
+  border: 1px solid transparent;
+}
+
+.social-flip-back svg {
+  width: 26px;
+  height: 26px;
+}
+
 
 /* Footer */
 .footer {
@@ -1712,6 +1818,14 @@ section {
 
   .hero-title-wrap {
     margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .hero-title-desktop {
+    display: none;
+  }
+  
+  .hero-title-mobile {
+    display: block;
   }
 
   .hero-sub {
@@ -2461,7 +2575,7 @@ section {
 }
 
 /* Ensure smooth transition when changing themes */
-body, html, nav, .about-card, .project-card, .modal-panel, .contact-form, .form-input, .form-textarea, .btn {
+nav, .about-card, .project-card, .modal-panel, .contact-form, .form-input, .form-textarea, .btn {
   transition: background-color 0.4s var(--ease-out), 
               color 0.4s var(--ease-out), 
               border-color 0.4s var(--ease-out),
@@ -3616,4 +3730,78 @@ canvas {
   height: 8px;
   border-radius: 50%;
   background: var(--ink);
+}
+
+/* Visually hidden (accessible) helper used by the theme toggler. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* AnimatedThemeToggler — View Transitions reveal.
+   Scoped to the toggler so other root view transitions stay unaffected. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-magicui-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration);
+}
+
+html[data-magicui-theme-vt="active"]::view-transition-new(root) {
+  clip-path: var(--magicui-theme-vt-clip-from);
+}
+
+/* Text3DFlip — scoped utility/3D classes */
+.text-3d-flip-root {
+  position: relative;
+  display: inline;
+}
+.text-3d-flip-word {
+  display: inline-flex;
+}
+.text-3d-flip-space {
+  white-space: pre;
+}
+.text-3d-flip-char {
+  display: inline-block;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.text-3d-flip-char > span {
+  height: 1lh;
+}
+.text-3d-flip-front {
+  position: relative;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.text-3d-flip-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.contact-em-flip {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--accent);
+}
+
+.magic-highlighter {
+  display: inline-block;
+  position: relative;
+  background: transparent;
 }

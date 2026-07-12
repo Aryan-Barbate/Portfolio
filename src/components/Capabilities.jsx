@@ -1,7 +1,11 @@
+import { useRef } from 'react';
 import { skills, skillGroups } from '../data/skills';
 import useScrollReveal from '../hooks/useScrollReveal';
+import VariableProximity from './VariableProximity';
+import SkillCarousel from './SkillCarousel';
 
 export default function Capabilities() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   const grouped = Object.entries(skillGroups).map(([name, meta]) => ({
@@ -16,8 +20,15 @@ export default function Capabilities() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow" style={{ color: 'rgba(255,255,255,0.6)' }}>Capabilities & Stack</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', color: '#fff' }}>
-              My Technical Arsenal.
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'My Technical Arsenal.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>03</span>
@@ -31,25 +42,8 @@ export default function Capabilities() {
             </p>
           </div>
 
-          <div className="capabilities-grid reveal reveal-delay-2">
-            {grouped.map(group => (
-              <div key={group.name} className="capability-group-card glass-card">
-                <div className="capability-group-header">
-                  <span className="capability-group-name">{group.name}</span>
-                  <span className="capability-group-desc">{group.description}</span>
-                </div>
-                <div className="capability-tags">
-                  {group.items.map(skill => (
-                    <span
-                      key={skill.id}
-                      className={`capability-tag ${skill.tag ? skill.tag.toLowerCase() : ''}`}
-                    >
-                      {skill.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="capabilities-orbital-wrapper reveal reveal-delay-2" style={{ marginTop: '2rem' }}>
+            <SkillCarousel groupedSkills={grouped} />
           </div>
         </div>
       </div>

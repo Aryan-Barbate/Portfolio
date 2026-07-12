@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { MapPin } from 'lucide-react';
-import { Github } from './BrandIcons';
 import useScrollReveal from '../hooks/useScrollReveal';
-import ChessGame from './ChessGame';
+import VariableProximity from './VariableProximity';
+import ProfileCard from './ProfileCard';
+
+import Highlighter from './Highlighter';
+import NumberTicker from './NumberTicker';
 
 export default function About() {
+  const titleRef = useRef(null);
   const sectionRef = useScrollReveal();
 
   return (
@@ -13,82 +17,87 @@ export default function About() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">About</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              The builder behind<br />the work.
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'The builder behind the work.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">05</span>
         </div>
 
         <div className="about-layout">
-          <aside className="about-card reveal">
-            <img 
-              className="about-avatar" 
-              src="/avatar.jpg" 
-              alt="Aryan Barbate profile photo" 
-              style={{ objectFit: 'cover' }}
+          <aside className="about-sidebar reveal">
+            <ProfileCard
+              name="Aryan Barbate"
+              title="Developer · Builder · India"
+              handle="Aryan-Barbate"
+              status="Online"
+              contactText="GitHub"
+              avatarUrl="/avatar.jpg"
+              showUserInfo={true}
+              enableTilt={true}
+              enableMobileTilt={false}
+              onContactClick={() => window.open('https://github.com/Aryan-Barbate', '_blank')}
+              behindGlowEnabled={true}
+              innerGradient="linear-gradient(145deg, rgba(20,22,26,0.95) 0%, rgba(232,93,4,0.1) 100%)"
+              behindGlowColor="rgba(232, 93, 4, 0.4)"
             />
-            <h3 className="about-name">Aryan Barbate</h3>
-            <p className="about-role">Developer · Builder · India</p>
 
-            <div className="about-stat-grid">
-              <div className="about-stat">
-                <div className="about-stat-value">4</div>
-                <div className="about-stat-label">Projects shipped</div>
+            <div className="about-sidebar-extra" style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div className="about-stat-grid">
+                <div className="about-stat">
+                  <div className="about-stat-value"><NumberTicker value={4} /></div>
+                  <div className="about-stat-label">Projects shipped</div>
+                </div>
+                <div className="about-stat">
+                  <div className="about-stat-value">♟</div>
+                  <div className="about-stat-label">Chess player</div>
+                </div>
               </div>
-              <div className="about-stat">
-                <div className="about-stat-value">♟</div>
-                <div className="about-stat-label">Chess player</div>
+
+              <div className="about-links" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <a 
+                  href="https://www.google.com/maps/place/India" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="about-link"
+                >
+                  <MapPin size={14} />
+                  India
+                </a>
+                <a href="/resume.pdf" download className="about-link">
+                  <span style={{ fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>↓ Resume / CV</span>
+                </a>
               </div>
             </div>
-
-            <div className="about-links" style={{ marginBottom: 'var(--space-6)' }}>
-              <a 
-                href="https://www.google.com/maps/place/India" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="about-link"
-              >
-                <MapPin size={14} />
-                India
-              </a>
-              <a
-                href="https://github.com/Aryan-Barbate"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="about-link"
-              >
-                <Github size={14} />
-                github.com/Aryan-Barbate
-              </a>
-              <a href="/resume.pdf" download className="about-link">
-                <span style={{ fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>↓ Resume / CV</span>
-              </a>
-            </div>
-
-            <ChessGame />
           </aside>
 
           <div className="about-prose reveal reveal-delay-2">
             <p className="body-text">
               I'm a developer at the beginning of something — not at the start of a career,
-              but someone who builds things, ships them, and immediately thinks about what
+              but someone who <Highlighter action="highlight" color="#e85d04" isView>builds things, ships them</Highlighter>, and immediately thinks about what
               would make them better.
             </p>
 
             <blockquote className="about-quote">
-              "I'm not trying to look senior. I'm trying to build in a way that makes seniority inevitable."
+              "I'm not trying to look senior. I'm trying to build in a way that makes <Highlighter action="underline" color="#FF9800" isView>seniority inevitable</Highlighter>."
             </blockquote>
 
             <p className="body-text">
-              I approach code the way a chess player approaches an opening: with studied
+              I approach code the way a <Highlighter action="circle" color="#ffd1dc" isView>chess player approaches an opening</Highlighter>: with studied
               intentionality. Every project is a position on the board. You learn the patterns,
               understand the logic, then iterate toward something better.
             </p>
 
             <p className="body-text">
               Right now I'm deep in the frontend — React, JavaScript, CSS — building
-              tools that talk to real APIs and experiences that reward attention.
+              tools that talk to real APIs and <Highlighter action="box" color="#87CEFA" isView>experiences that reward attention</Highlighter>.
               What you see here is small in quantity but high in intention. AniScope
               talks to a real API. GitHub Finder is a real tool. Linea Flora is an
               interactive bouquet builder. The Gallery of Senses is a real creative
@@ -107,7 +116,6 @@ export default function About() {
                 </div>
               ))}
             </div>
-
 
           </div>
         </div>

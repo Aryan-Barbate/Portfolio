@@ -1,22 +1,32 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
-
-const lines = [
-  { text: 'Aryan', accent: false },
-  { text: 'Barbate', accent: true },
-];
+import TextPressure from './TextPressure';
+import VariableProximity from './VariableProximity';
+import Galaxy from './Galaxy';
 
 export default function Hero() {
+  const textRef = useRef(null);
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <section id="hero" className="hero">
-      <div className="hero-grid-bg" aria-hidden="true" />
-      <div className="hero-orb" aria-hidden="true" />
+    <section id="hero" className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }}>
+        <Galaxy 
+          transparent={true}
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={0.7}
+          glowIntensity={0.5}
+          rotationSpeed={0.05}
+          repulsionStrength={2.5}
+          starSpeed={0.4}
+        />
+      </div>
 
-      <div className="container hero-inner">
-        <div className="hero-top-row">
+      <div className="container hero-inner" style={{ position: 'relative', zIndex: 2, pointerEvents: 'none' }}>
+        <div className="hero-top-row" style={{ pointerEvents: 'auto' }}>
           <div className="hero-status">
             <span className="hero-status-dot" />
             Available for work
@@ -28,39 +38,57 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-title-wrap">
-          <h1 className="display-hero">
-            {lines.map((line, i) => (
-              <span key={line.text} className="hero-title-line">
-                <motion.span
-                  initial={{ y: '110%' }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  className={line.accent ? 'hero-title-accent' : ''}
-                >
-                  {line.text}
-                </motion.span>
-              </span>
-            ))}
+        <div className="hero-title-wrap" style={{ pointerEvents: 'auto' }}>
+          <div className="hero-title-desktop" style={{ position: 'relative', height: 'clamp(150px, 20vw, 300px)' }}>
+            <TextPressure
+              text="ARYAN BARBATE"
+              flex={true}
+              alpha={false}
+              stroke={false}
+              width={true}
+              weight={true}
+              italic={true}
+              textColor="currentColor"
+              strokeColor="#ff0000"
+              minFontSize={36}
+            />
+          </div>
+          
+          <h1 className="hero-title-mobile" style={{ 
+            fontFamily: 'var(--font-display)', 
+            fontWeight: 900,
+            fontSize: 'clamp(2rem, 11vw, 8rem)',
+            lineHeight: 0.9,
+            letterSpacing: '-0.05em',
+            textTransform: 'uppercase',
+            margin: 0,
+            wordBreak: 'break-word'
+          }}>
+            ARYAN <br/> BARBATE
           </h1>
         </div>
 
-        <motion.p
+        <div
+          ref={textRef}
           className="body-text hero-sub"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
+          style={{ position: 'relative', pointerEvents: 'auto' }}
         >
-          I build interfaces with intention — live API tools, creative experiments,
-          and polished front-end craft. Small in quantity,{' '}
-          <span className="serif-italic">high in craft.</span>
-        </motion.p>
+          <VariableProximity
+            label={'I build interfaces with intention — live API tools, creative experiments, and polished front-end craft. Small in quantity, high in craft.'}
+            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+            toFontVariationSettings="'wght' 900, 'opsz' 40"
+            containerRef={textRef}
+            radius={150}
+            falloff='linear'
+          />
+        </div>
 
         <motion.div
           className="hero-actions"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}
+          style={{ pointerEvents: 'auto' }}
         >
           <button className="btn btn-primary" onClick={() => scrollTo('work')}>
             View selected work

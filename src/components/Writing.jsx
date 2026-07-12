@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { X, BookOpen, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useScrollReveal from '../hooks/useScrollReveal';
+import VariableProximity from './VariableProximity';
+import FolderCard from './FolderCard';
 
 const posts = [
   {
@@ -41,6 +43,7 @@ If a screen runs at 144Hz, animations can run twice as fast as on a 60Hz screen 
 ];
 
 export default function Writing() {
+  const titleRef = useRef(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const sectionRef = useScrollReveal();
 
@@ -50,8 +53,15 @@ export default function Writing() {
         <div className="section-header section-header-row">
           <div>
             <p className="eyebrow">Journal</p>
-            <h2 className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
-              Writing on the<br />process of build.
+            <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
+              <VariableProximity
+                label={'Writing on the process of build.'}
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={titleRef}
+                radius={150}
+                falloff='linear'
+              />
             </h2>
           </div>
           <span className="section-index reveal reveal-delay-2">06</span>
@@ -59,12 +69,12 @@ export default function Writing() {
 
         <div className="writing-grid">
           {posts.map((post, index) => (
-            <article 
+            <FolderCard 
               key={post.title} 
-              className={`writing-card reveal reveal-delay-${index + 1}`}
+              className={`reveal reveal-delay-${index + 1}`}
               onClick={() => setSelectedPost(post)}
             >
-              <div className="writing-meta">
+              <div className="writing-meta" style={{ marginBottom: '1rem' }}>
                 <span className="writing-date">{post.date}</span>
                 <span className="writing-sep">·</span>
                 <span className="writing-time">
@@ -73,11 +83,17 @@ export default function Writing() {
                 </span>
               </div>
               <h3 className="writing-title">{post.title}</h3>
-              <p className="writing-excerpt">{post.excerpt}</p>
-              <span className="writing-read-more">
+              
+              <div className="folder-excerpt-wrapper">
+                <div className="folder-excerpt-inner">
+                  <p className="writing-excerpt" style={{ marginTop: '1rem' }}>{post.excerpt}</p>
+                </div>
+              </div>
+              
+              <span className="folder-read-more">
                 Read article <BookOpen size={13} style={{ marginLeft: '6px' }} />
               </span>
-            </article>
+            </FolderCard>
           ))}
         </div>
       </div>
