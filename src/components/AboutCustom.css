@@ -1,0 +1,79 @@
+/* Spotlight wrapper styling */
+.spotlight-wrapper {
+  background: rgba(20, 22, 26, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s ease;
+}
+
+.spotlight-wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.spotlight-content {
+  padding: var(--space-8);
+  /* The spotlight itself is rendered as a div underneath this content */
+}
+
+.spotlight-layer {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight-wrapper:hover .spotlight-layer {
+  opacity: 1;
+}
+
+/* Magnetic Elements pulling toward mouse */
+.magnetic-element {
+  transition: transform 0.1s ease-out;
+  transform: translate(calc(var(--mx) * 1px), calc(var(--my) * 1px));
+  will-change: transform;
+}
+
+/* Glitch Avatar Effect */
+.glitch-avatar-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  border-radius: 50%;
+}
+
+.glitch-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+}
+
+.glitch-avatar-container:hover .layer-1 {
+  opacity: 1;
+  animation: glitch-anim-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  filter: drop-shadow(-2px 0 0 red);
+}
+
+.glitch-avatar-container:hover .layer-2 {
+  opacity: 1;
+  animation: glitch-anim-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite reverse;
+  filter: drop-shadow(2px 0 0 blue);
+}
+
+@keyframes glitch-anim-1 {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+@keyframes glitch-anim-2 {
+  0% { transform: translate(0) }
+  20% { transform: translate(2px, -2px) }
+  40% { transform: translate(2px, 2px) }
+  60% { transform: translate(-2px, -2px) }
+  80% { transform: translate(-2px, 2px) }
+  100% { transform: translate(0) }
+}

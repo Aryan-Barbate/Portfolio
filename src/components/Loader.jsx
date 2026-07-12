@@ -1,9 +1,9 @@
-import { motion, useMotionValue, animate, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion, animate, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
 
 export default function Loader({ onLoaded }) {
   const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
+  const numberRef = useRef(null);
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
@@ -22,9 +22,15 @@ export default function Loader({ onLoaded }) {
   const rotate = useTransform(count, [0, 100], [-90, 270]); // Start at top, rotate
 
   useEffect(() => {
-    const controls = animate(count, 100, {
+    const controls = animate(0, 100, {
       duration: 2.0,
       ease: [0.16, 1, 0.3, 1],
+      onUpdate: (value) => {
+        count.set(value);
+        if (numberRef.current) {
+          numberRef.current.textContent = Math.round(value);
+        }
+      },
       onComplete: () => {
         setIsDone(true);
         setTimeout(onLoaded, 800); // Wait for exit animation
@@ -98,7 +104,7 @@ export default function Loader({ onLoaded }) {
           animate={{ opacity: isDone ? 0 : 1, scale: isDone ? 1.1 : 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.span>{rounded}</motion.span>
+          <motion.span ref={numberRef}>0</motion.span>
           <span style={{ fontSize: '1rem', marginLeft: '4px', color: 'var(--muted)' }}>%</span>
         </motion.div>
       </div>
