@@ -77,7 +77,6 @@ The portfolio leverages a highly tailored editorial style resembling a design jo
 │   │   ├── GithubConsole.jsx  # Tabbed Git CLI Console
 │   │   ├── About.jsx          # Profile Biography
 │   │   ├── ProfileCard.jsx    # Interactive 3D glassmorphic card (React Bits)
-│   │   ├── ChessGame.jsx      # Playable vs Stockfish AI engine on about card
 │   │   ├── Writing.jsx        # Developer Journal list + inline reader
 │   │   ├── Contact.jsx        # Formspree Form with social flip button
 │   │   └── Footer.jsx         # Site footer & GitHub repo link
