@@ -28,16 +28,17 @@ export default function CustomCursor() {
         });
       }
 
-      // Check if hovering over a clickable element
+      // Check if hovering over a clickable element (simplified to avoid layout thrashing)
       const target = e.target;
       const isClickable = 
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        window.getComputedStyle(target).cursor === 'pointer';
+        target.closest('a') !== null ||
+        target.closest('button') !== null ||
+        target.classList.contains('clickable'); // use a class instead of getComputedStyle
 
-      setIsHovering(isClickable);
+      // Only update state if it actually changed to prevent unnecessary re-renders
+      setIsHovering(prev => prev !== isClickable ? isClickable : prev);
     };
 
     const onMouseLeave = () => {

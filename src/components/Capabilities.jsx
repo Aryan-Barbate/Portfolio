@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { skills, skillGroups } from '../data/skills';
 import useScrollReveal from '../hooks/useScrollReveal';
 import VariableProximity from './VariableProximity';
-
+import SkillCarousel from './SkillCarousel';
 
 export default function Capabilities() {
   const titleRef = useRef(null);
@@ -42,25 +42,8 @@ export default function Capabilities() {
             </p>
           </div>
 
-          <div className="capabilities-grid reveal reveal-delay-2">
-            {grouped.map(group => (
-              <div key={group.name} className="capability-group-card glass-card">
-                <div className="capability-group-header">
-                  <span className="capability-group-name">{group.name}</span>
-                  <span className="capability-group-desc">{group.description}</span>
-                </div>
-                <div className="capability-tags">
-                  {group.items.map(skill => (
-                    <span
-                      key={skill.id}
-                      className={`capability-tag ${skill.tag ? skill.tag.toLowerCase() : ''}`}
-                    >
-                      {skill.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="capabilities-orbital-wrapper reveal reveal-delay-2" style={{ marginTop: '2rem' }}>
+            <SkillCarousel groupedSkills={grouped} />
           </div>
         </div>
       </div>

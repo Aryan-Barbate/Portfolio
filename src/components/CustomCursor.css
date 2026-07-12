@@ -16,7 +16,6 @@ svg.modern-cursor {
   width: 24px;
   height: 24px;
   overflow: visible;
-  filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.3));
   /* Apply the live animation */
   animation: float-and-pulse 3s ease-in-out infinite;
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
