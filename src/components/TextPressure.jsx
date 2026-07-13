@@ -136,6 +136,8 @@ const TextPressure = ({
     let rafId;
     let observer;
     let isIntersecting = true;
+    let lastTime = 0;
+    const TARGET_INTERVAL = 33; // ~30fps
 
     if (containerRef.current) {
       observer = new IntersectionObserver(([entry]) => {
@@ -144,9 +146,11 @@ const TextPressure = ({
       observer.observe(containerRef.current);
     }
 
-    const animate = () => {
+    const animate = (timestamp) => {
       rafId = requestAnimationFrame(animate);
       if (!isIntersecting) return;
+      if (timestamp - lastTime < TARGET_INTERVAL) return;
+      lastTime = timestamp;
 
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
@@ -179,7 +183,7 @@ const TextPressure = ({
       }
     };
 
-    animate();
+    animate(0);
     return () => {
       cancelAnimationFrame(rafId);
       if (observer) observer.disconnect();
@@ -258,7 +262,8 @@ const TextPressure = ({
             data-char={char}
             style={{
               display: 'inline-block',
-              color: stroke ? undefined : textColor
+              color: stroke ? undefined : textColor,
+              willChange: 'font-variation-settings'
             }}
           >
             {char === ' ' ? '\u00A0' : char}
