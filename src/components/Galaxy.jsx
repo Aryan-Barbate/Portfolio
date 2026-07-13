@@ -272,6 +272,12 @@ export default function Galaxy({
     const TARGET_INTERVAL = 33;
     const WARMUP_FRAMES = 60;
 
+    let isIntersecting = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+    }, { threshold: 0 });
+    observer.observe(ctn);
+
     function update(t) {
       animateId = requestAnimationFrame(update);
       frameCount++;
@@ -281,6 +287,10 @@ export default function Galaxy({
 
       // After warmup, throttle to ~30fps
       if (frameCount > WARMUP_FRAMES && t - lastRenderTime < TARGET_INTERVAL) return;
+
+      // Completely pause execution/rendering if offscreen
+      if (!isIntersecting) return;
+
       lastRenderTime = t;
 
       if (!disableAnimation) {
@@ -323,6 +333,7 @@ export default function Galaxy({
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
+      observer.disconnect();
       if (mouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseleave', handleMouseLeave);
