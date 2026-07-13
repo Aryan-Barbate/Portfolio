@@ -10,6 +10,7 @@
   margin-left: -3px;
   margin-top: -3px;
   mix-blend-mode: difference;
+  will-change: transform;
 }
 
 /* The core SVG styling */

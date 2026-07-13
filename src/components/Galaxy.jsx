@@ -38,7 +38,7 @@ uniform bool uTransparent;
 
 varying vec2 vUv;
 
-#define NUM_LAYER 4.0
+#define NUM_LAYER 3.0
 #define STAR_COLOR_CUTOFF 0.2
 #define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
 #define PERIOD 3.0
@@ -201,8 +201,8 @@ export default function Galaxy({
     const renderer = new Renderer({
       alpha: transparent,
       premultipliedAlpha: false,
-      preserveDrawingBuffer: true,
-      dpr: 0.5 // Half-resolution to completely eliminate background GPU lag
+      preserveDrawingBuffer: false,
+      dpr: 0.45 // Low-res to reduce fragment shader load
     });
     const gl = renderer.gl;
 
@@ -265,9 +265,34 @@ export default function Galaxy({
 
     const mesh = new Mesh(gl, { geometry, program });
     let animateId;
+    let frameCount = 0;
+    let lastRenderTime = 0;
+    // Target ~30fps for background (16ms = 60fps, 33ms = 30fps)
+    // During warmup (first 60 frames) skip every other frame to ease GPU load
+    const TARGET_INTERVAL = 33;
+    const WARMUP_FRAMES = 60;
+
+    let isIntersecting = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+    }, { threshold: 0 });
+    observer.observe(ctn);
 
     function update(t) {
       animateId = requestAnimationFrame(update);
+      frameCount++;
+
+      // During warmup, skip every other frame
+      if (frameCount <= WARMUP_FRAMES && frameCount % 2 !== 0) return;
+
+      // After warmup, throttle to ~30fps
+      if (frameCount > WARMUP_FRAMES && t - lastRenderTime < TARGET_INTERVAL) return;
+
+      // Completely pause execution/rendering if offscreen
+      if (!isIntersecting) return;
+
+      lastRenderTime = t;
+
       if (!disableAnimation) {
         program.uniforms.uTime.value = t * 0.001;
         program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
@@ -286,6 +311,7 @@ export default function Galaxy({
       renderer.render({ scene: mesh });
     }
     animateId = requestAnimationFrame(update);
+    gl.canvas.style.willChange = 'transform'; // promote canvas to its own GPU compositing layer
     ctn.appendChild(gl.canvas);
 
     function handleMouseMove(e) {
@@ -307,6 +333,7 @@ export default function Galaxy({
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
+      observer.disconnect();
       if (mouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseleave', handleMouseLeave);

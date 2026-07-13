@@ -1,5 +1,4 @@
 import { forwardRef, useMemo, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import './VariableProximity.css';
 
 function useAnimationFrame(callback, containerRef) {
@@ -15,11 +14,14 @@ function useAnimationFrame(callback, containerRef) {
       observer.observe(containerRef.current);
     }
 
-    const loop = () => {
-      if (isIntersecting) {
-        callback();
-      }
+    let lastTime = 0;
+    const TARGET_INTERVAL = 33; // ~30fps
+    const loop = (timestamp) => {
       frameId = requestAnimationFrame(loop);
+      if (!isIntersecting) return;
+      if (timestamp - lastTime < TARGET_INTERVAL) return;
+      lastTime = timestamp;
+      callback();
     };
     
     frameId = requestAnimationFrame(loop);
@@ -203,19 +205,20 @@ const VariableProximity = forwardRef((props, ref) => {
           {word.split('').map(letter => {
             const currentLetterIndex = letterIndex++;
             return (
-              <motion.span
+              <span
                 key={currentLetterIndex}
                 ref={el => {
                   letterRefs.current[currentLetterIndex] = el;
                 }}
                 style={{
                   display: 'inline-block',
-                  fontVariationSettings: fromFontVariationSettings
+                  fontVariationSettings: fromFontVariationSettings,
+                  willChange: 'font-variation-settings'
                 }}
                 aria-hidden="true"
               >
                 {letter}
-              </motion.span>
+              </span>
             );
           })}
           {wordIndex < words.length - 1 && <span style={{ display: 'inline-block' }}>&nbsp;</span>}
