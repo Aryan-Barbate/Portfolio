@@ -12,10 +12,7 @@ export default function Contact() {
   const sectionRef = useScrollReveal();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
-
-  // The user can configure their Formspree ID here.
-  // If it remains the placeholder, the form will fall back to mailto automatically.
-  const FORMSPREE_ID = 'https://formspree.io/f/mkoadyrz'; 
+  const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/mkoadyrz';
 
   // Social links shown in the flip button. Each tile is a single letter so
   // the row reads C O N T A C T. The first C and last T are plain letter
@@ -34,33 +31,13 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
 
-    const hasFormspreeId = FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORMSPREE_ID';
-
-    if (!hasFormspreeId) {
-      // Graceful fallback to mailto if Formspree is not configured
-      const subject = encodeURIComponent(`Hello from ${form.name}`);
-      const body = encodeURIComponent(`From: ${form.email}\n\n${form.message}`);
-      window.open(`mailto:aryanbarbate3@gmail.com?subject=${subject}&body=${body}`);
-      setStatus('success');
-      return;
-    }
-
     try {
-      const formspreeUrl = FORMSPREE_ID.startsWith('http')
-        ? FORMSPREE_ID
-        : `https://formspree.io/f/${FORMSPREE_ID}`;
-
-      const response = await fetch(formspreeUrl, {
+      const response = await fetch(formspreeEndpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json'
         },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          message: form.message
-        })
+        body: new FormData(e.currentTarget)
       });
 
       if (response.ok) {
@@ -73,14 +50,15 @@ export default function Contact() {
           colors: ['#e85d04', '#c44d00', '#2a2824', '#ebe5d9']
         });
       } else {
-        throw new Error('Form submission failed');
+        const errorText = await response.text();
+        throw new Error(errorText || 'Form submission failed');
       }
     } catch (err) {
       console.error('Submission error:', err);
       // Fallback to mailto if fetch fails
       const subject = encodeURIComponent(`Hello from ${form.name} (Fallback)`);
       const body = encodeURIComponent(`From: ${form.email}\n\n${form.message}`);
-      window.open(`mailto:aryanbarbate3@gmail.com?subject=${subject}&body=${body}`);
+      window.location.href = `mailto:aryanbarbate3@gmail.com?subject=${subject}&body=${body}`;
       setStatus('success'); // mark as success since mailto was triggered
     }
   };
@@ -117,11 +95,12 @@ export default function Contact() {
 
           <div className="reveal reveal-delay-2">
             {status !== 'success' ? (
-              <form className="contact-form" onSubmit={handleSubmit}>
+              <form className="contact-form" onSubmit={handleSubmit} method="POST" action={formspreeEndpoint}>
                 <div>
                   <label className="form-label" htmlFor="contact-name">Your name</label>
                   <input
                     id="contact-name"
+                    name="name"
                     type="text"
                     className="form-input"
                     placeholder="Who's reaching out?"
@@ -135,6 +114,7 @@ export default function Contact() {
                   <label className="form-label" htmlFor="contact-email">Your email</label>
                   <input
                     id="contact-email"
+                    name="email"
                     type="email"
                     className="form-input"
                     placeholder="How can I reply to you?"
@@ -148,6 +128,7 @@ export default function Contact() {
                   <label className="form-label" htmlFor="contact-message">Message</label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     className="form-textarea"
                     placeholder="What would you like to build or talk about?"
                     value={form.message}
