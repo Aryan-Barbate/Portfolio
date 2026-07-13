@@ -28,27 +28,32 @@ A premium, editorial-style developer portfolio built to showcase live products, 
 ## 💎 Advanced Interactive Features
 
 ### 1. Keyboard-Navigable Command Palette (`Ctrl + K` or `Cmd + K`)
-An accessibility-first overlay console triggered via `Ctrl + K` keyboard combinations or visual buttons. 
-*   **Whitespace-Stripped Shortcut Matching**: Instantly traverses commands using short commands (e.g., typing `gh` matches `Go to Home` (`G H`), `gp` matches `Go to Projects` (`G P`), etc.).
-*   **Full Keyboard Support**: Navigate results with `ArrowUp`/`ArrowDown`, trigger actions with `Enter`, and exit with `Escape`.
-*   **Frosted Glassmorphism**: Premium backdrop blurring and centered typography alignments.
+
+An accessibility-first overlay console triggered via `Ctrl + K` keyboard combinations or visual buttons.
+
+- **Whitespace-Stripped Shortcut Matching**: Instantly traverses commands using short commands (e.g., typing `gh` matches `Go to Home` (`G H`), `gp` matches `Go to Projects` (`G P`), etc.).
+- **Full Keyboard Support**: Navigate results with `ArrowUp`/`ArrowDown`, trigger actions with `Enter`, and exit with `Escape`.
+- **Frosted Glassmorphism**: Premium backdrop blurring and centered typography alignments.
 
 ### 2. Command Center CLI Terminal Panel
+
 A hybrid tabbed developer dashboard situated inside the main layouts:
-*   **Activity Tab**: Simulates a live git commit graph feed (`git log --oneline --graph`).
-*   **Interactive Shell**: Runs a custom-built mock shell:
-    *   `about` — Profile biography.
-    *   `skills [query]` — Programmatically checks stack tags in the projects database and shows matching results.
-    *   `projects [query]` — Interactive details and source links.
-    *   `gui [section]` — Smooth scrolls browser viewport to targets.
-    *   `neofetch` — ASCII logo and system environment variables.
-    *   `contact` & `clear` — Details and buffer clearing.
+
+- **Activity Tab**: Simulates a live git commit graph feed (`git log --oneline --graph`).
+- **Interactive Shell**: Runs a custom-built mock shell:
+  - `about` — Profile biography.
+  - `skills [query]` — Programmatically checks stack tags in the projects database and shows matching results.
+  - `projects [query]` — Interactive details and source links.
+  - `gui [section]` — Smooth scrolls browser viewport to targets.
+  - `neofetch` — ASCII logo and system environment variables.
+  - `contact` & `clear` — Details and buffer clearing.
 
 ---
 
 ## 🎨 Editorial Design System
 
 The portfolio leverages a highly tailored editorial style resembling a design journal:
+
 - **Typography**: Uses **Syne** for display headings, **Instrument Serif** for expressive serif italics, and **Space Mono** for structural/technical metadata.
 - **Color Palette**:
   - **Light Mode**: Cream paper (`#f4f0e8`), soft ink (`#2a2824`), and hot orange accents (`#e85d04`).
@@ -94,23 +99,28 @@ The portfolio leverages a highly tailored editorial style resembling a design jo
 ## ⚡ Setup & Installation
 
 ### Prerequisites
+
 Ensure you have **Node.js** (v18+) and **npm** installed.
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/Aryan-Barbate/Portfolio.git
    cd Portfolio
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Run the local development server**:
+
    ```bash
    npm run dev
    ```
+
    Open `http://localhost:5173` in your browser.
 
 4. **Build for production**:
@@ -123,11 +133,11 @@ Ensure you have **Node.js** (v18+) and **npm** installed.
 ## 📧 Formspree Configuration
 
 To receive contact form submissions directly in your email inbox without running a custom backend:
+
 1. Sign up for a free account at [Formspree](https://formspree.io/).
-2. Create a new form project and copy the **Form ID** (a 8-character hash like `xoqpyvky`).
-3. Open [src/components/Contact.jsx](file:///c:/Users/aryan/OneDrive/Desktop/Programming/Coding/Portfolio/src/components/Contact.jsx) and replace the placeholder `FORMSPREE_ID`:
+2. Create a new form project and copy the **Form endpoint** or **Form ID** (a short hash like `xoqpyvky`).
+3. Set `VITE_FORMSPREE_ENDPOINT` to your Formspree endpoint, or update [src/components/Contact.jsx](file:///c:/Users/aryan/OneDrive/Desktop/Programming/Coding/Portfolio/src/components/Contact.jsx) if you prefer to hardcode it:
    ```javascript
-   // Replace 'YOUR_FORMSPREE_ID' with your actual Formspree form ID
-   const FORMSPREE_ID = 'yourFormspreeId';
+   const VITE_FORMSPREE_ENDPOINT = "https://formspree.io/f/yourFormId";
    ```
-4. Submissions will now be delivered to your Formspree dashboard. If the ID is left as `'YOUR_FORMSPREE_ID'`, the application will automatically fall back to opening your personal `mailto` mail link seamlessly.
+4. Submissions will now be delivered to your Formspree dashboard. If the request fails, the form falls back to opening a `mailto` draft for the recipient email.
