@@ -1603,7 +1603,7 @@ section {
 .social-flip-group {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4);
@@ -1627,8 +1627,8 @@ section {
 
 .social-flip-node {
   position: relative;
-  height: 60px;
-  width: 60px;
+  width: clamp(40px, 4.5vw, 60px);
+  height: clamp(40px, 4.5vw, 60px);
   display: flex;
   cursor: pointer;
   text-decoration: none;
@@ -1643,6 +1643,13 @@ section {
   .social-flip-group {
     gap: var(--space-2);
     padding: var(--space-2);
+  }
+}
+
+/* Prevent the social flip tiles from wrapping on desktop so the word stays on one line */
+@media (min-width: 768px) {
+  .social-flip-group {
+    flex-wrap: nowrap;
   }
 }
 
