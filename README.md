@@ -6,7 +6,9 @@ A premium, editorial-style developer portfolio built to showcase live products, 
 
 ## 🚀 Live Demos & Shipped Projects
 
+- **Rentra**: [Live Link](https://rentra-internship-project.vercel.app) | [Source Code](https://github.com/Rentra-Internship-Project/Rentra-Internship-Project)
 - **Linea Flora**: [Live Link](https://linea-flora-ab.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/Linea-Flora)
+- **Book Management System**: [Live Link](https://book-management-system-ab.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/Book-Management-System)
 - **AniScope**: [Live Link](https://ani-scope-nine.vercel.app) | [Source Code](https://github.com/Aryan-Barbate/AniScope)
 - **GitHub Finder**: [Live Link](https://ab-github-finder.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/GitHub-Finder)
 - **Gallery of Senses**: [Live Link](https://ab-gallery-of-senses.vercel.app/) | [Source Code](https://github.com/Aryan-Barbate/The-Gallery-of-Senses)

@@ -52,7 +52,7 @@ export default function About() {
             <div className="about-sidebar-extra" style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               <div className="about-stat-grid">
                 <div className="about-stat">
-                  <div className="about-stat-value"><NumberTicker value={4} /></div>
+                  <div className="about-stat-value"><NumberTicker value={6} /></div>
                   <div className="about-stat-label">Projects shipped</div>
                 </div>
                 <div className="about-stat">

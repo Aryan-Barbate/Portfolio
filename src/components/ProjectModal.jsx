@@ -39,19 +39,37 @@ export default function ProjectModal({ project, onClose }) {
           <X size={18} />
         </button>
 
-        <motion.div className="modal-hero" variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }} initial="hidden" animate="visible" exit="hidden">
+        <motion.div 
+          className="modal-hero" 
+          variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }} 
+          initial="hidden" 
+          animate="visible" 
+          exit="hidden"
+          style={{
+            background: project.fit === 'contain' ? '#0d0d0d' : undefined,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <img
             className="modal-hero-cover"
             src={project.cover}
             alt=""
             decoding="async"
-          />
-          <div
-            className="modal-hero-overlay"
             style={{
-              background: `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 20%)`,
+              objectFit: project.fit || 'cover',
+              objectPosition: 'center',
             }}
           />
+          {project.fit !== 'contain' && (
+            <div
+              className="modal-hero-overlay"
+              style={{
+                background: `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 20%)`,
+              }}
+            />
+          )}
         </motion.div>
 
         <motion.div className="modal-body" data-lenis-prevent="true" initial="hidden" animate="visible" exit="hidden" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>

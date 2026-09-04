@@ -733,6 +733,10 @@ section {
   transform: scale(1.05);
 }
 
+.project-card:hover .project-card-cover.fit-contain {
+  transform: scale(1.02);
+}
+
 .project-card:hover .project-card-bg {
   transform: scale(1.05);
 }

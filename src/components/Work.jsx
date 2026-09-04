@@ -6,12 +6,21 @@ import useScrollReveal from '../hooks/useScrollReveal';
 import { AnimatePresence } from 'framer-motion';
 import VariableProximity from './VariableProximity';
 
-function ProjectImage({ src, alt, color, accent }) {
+function ProjectImage({ src, alt, color, accent, fit = 'cover' }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ 
+      width: '100%', 
+      height: '100%', 
+      position: 'relative', 
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: fit === 'contain' ? '#0d0d0d' : undefined
+    }}>
       {loading && (
         <div 
           className="shimmer" 
@@ -27,7 +36,7 @@ function ProjectImage({ src, alt, color, accent }) {
       )}
       {!error ? (
         <img
-          className="project-card-cover"
+          className={`project-card-cover ${fit === 'contain' ? 'fit-contain' : ''}`}
           src={src}
           alt={alt}
           onLoad={() => setLoading(false)}
@@ -40,9 +49,10 @@ function ProjectImage({ src, alt, color, accent }) {
           draggable="false"
           style={{
             opacity: loading ? 0 : 1,
-            transition: 'opacity 0.4s ease',
+            transition: 'opacity 0.4s ease, transform 0.8s var(--ease-out)',
             zIndex: 0,
-            objectFit: 'cover',
+            objectFit: fit,
+            objectPosition: 'center',
             width: '100%',
             height: '100%'
           }}
@@ -88,7 +98,7 @@ export default function Work() {
               <p className="eyebrow reveal">Selected Work</p>
               <h2 ref={titleRef} className="display-section reveal reveal-delay-1" style={{ marginTop: '1rem', position: 'relative', wordBreak: 'break-word', whiteSpace: 'normal' }}>
                 <VariableProximity
-                  label={'Four projects, one practice.'}
+                  label={'Six projects, one practice.'}
                   fromFontVariationSettings="'wght' 400, 'opsz' 9"
                   toFontVariationSettings="'wght' 900, 'opsz' 40"
                   containerRef={titleRef}
@@ -147,6 +157,7 @@ export default function Work() {
                       alt={project.name} 
                       color={project.color} 
                       accent={project.accent} 
+                      fit={project.fit}
                     />
                   </div>
                   {/* Minimal subtle gradient for text legibility, no heavy overlay */}
@@ -155,7 +166,7 @@ export default function Work() {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%)',
+                      background: project.fit === 'contain' ? 'rgba(0,0,0,0.1)' : 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%)',
                       pointerEvents: 'none'
                     }}
                   />
