@@ -22,7 +22,7 @@ export default function Contact() {
     { letter: 'O', icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Aryan-Barbate' },
     { letter: 'N', icon: <Twitter size={20} />, label: 'Twitter / X', href: 'https://x.com/AryanBarbate' },
     { letter: 'T', icon: <Instagram size={20} />, label: 'Instagram', href: 'https://www.instagram.com/barbate_aryan' },
-    { letter: 'A', icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/aryan-barbate-b653b9393' },
+    { letter: 'A', icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/aryan-barbate' },
     { letter: 'C', icon: <Mail size={20} />, label: 'Email', href: 'mailto:aryanbarbate3@gmail.com' },
     { letter: 'T', plain: true },
   ];

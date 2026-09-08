@@ -474,7 +474,7 @@ export default function GithubConsole() {
           { text: '--- CONTACT CHANNELS ---', type: 'system' },
           { text: '• Email: mailto:aryanbarbate3@gmail.com', type: 'link' },
           { text: '• GitHub: https://github.com/Aryan-Barbate', type: 'link' },
-          { text: '• LinkedIn: https://www.linkedin.com/in/aryan-barbate-b653b9393', type: 'link' }
+          { text: '• LinkedIn: https://www.linkedin.com/in/aryan-barbate', type: 'link' }
         ];
         break;
       default:
